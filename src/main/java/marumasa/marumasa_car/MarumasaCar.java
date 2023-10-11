@@ -1,7 +1,6 @@
 package marumasa.marumasa_car;
 
 import org.bukkit.Server;
-import org.bukkit.entity.Display;
 import org.bukkit.entity.Interaction;
 import org.bukkit.plugin.java.JavaPlugin;
 
