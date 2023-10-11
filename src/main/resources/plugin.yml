@@ -1,0 +1,4 @@
+name: MarumasaCar
+version: '${version}'
+main: marumasa.marumasa_car.MarumasaCar
+api-version: '1.20'
