@@ -63,7 +63,7 @@ public class Vehicle extends BukkitRunnable {
         new Vehicle(stand).runTaskTimer(pl, 0, 0);
     }
 
-    private Vehicle(ArmorStand armorStand) {
+    protected Vehicle(ArmorStand armorStand) {
         body = armorStand;
         body.setInvisible(true);
         body.setSmall(true);
