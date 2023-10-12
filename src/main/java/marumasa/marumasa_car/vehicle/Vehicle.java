@@ -10,7 +10,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class Car extends BukkitRunnable {
+public class Vehicle extends BukkitRunnable {
 
     public static final Set<Interaction> SeatList = new HashSet<>();
 
@@ -28,7 +28,7 @@ public class Car extends BukkitRunnable {
         return new ArrayList<>();
     }
 
-    public Car(ArmorStand armorStand) {
+    public Vehicle(ArmorStand armorStand) {
         body = armorStand;
         body.setInvisible(true);
         body.setSmall(true);
