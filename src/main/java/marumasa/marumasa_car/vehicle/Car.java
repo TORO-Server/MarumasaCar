@@ -1,5 +1,6 @@
-package marumasa.marumasa_car;
+package marumasa.marumasa_car.vehicle;
 
+import marumasa.marumasa_car.MarumasaCar;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;

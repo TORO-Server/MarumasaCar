@@ -1,4 +1,4 @@
-package marumasa.marumasa_car;
+package marumasa.marumasa_car.vehicle;
 
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
