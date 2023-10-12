@@ -22,15 +22,15 @@ public class Vehicle extends BukkitRunnable {
 
 
     public float moveSpeed() {
-        return 0.5f;
+        return 0.4f;
     }
 
     public float slideSpeed() {
-        return 0.2f;
+        return 0.1f;
     }
 
     public float backSpeed() {
-        return 0.3f;
+        return 0.2f;
     }
 
     public float fallingSubSpeed() {
