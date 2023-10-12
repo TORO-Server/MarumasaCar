@@ -7,6 +7,7 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import marumasa.marumasa_car.vehicle.TestCar;
+import marumasa.marumasa_car.vehicle.Vehicle;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -111,7 +112,9 @@ public class Events implements Listener {
     }
 
     private void Unload(Entity entity) {
-        if (entity instanceof LivingEntity livingEntity) {
+        if (entity instanceof ArmorStand stand) {
+            Vehicle vehicle = VehicleController.VehicleLink.get(stand);
+            if (vehicle != null) vehicle.remove();
         }
     }
 }

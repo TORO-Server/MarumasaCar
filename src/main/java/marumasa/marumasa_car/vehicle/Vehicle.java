@@ -1,5 +1,6 @@
 package marumasa.marumasa_car.vehicle;
 
+import marumasa.marumasa_car.VehicleController;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -60,7 +61,9 @@ public class Vehicle extends BukkitRunnable {
     }
 
     public static void createVehicle(ArmorStand stand, JavaPlugin pl) {
-        new Vehicle(stand).runTaskTimer(pl, 0, 0);
+        final Vehicle vehicle = new Vehicle(stand);
+        vehicle.runTaskTimer(pl, 0, 0);
+        VehicleController.VehicleLink.put(stand, vehicle);
     }
 
     protected Vehicle(ArmorStand armorStand) {
