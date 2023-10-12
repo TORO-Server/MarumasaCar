@@ -1,6 +1,5 @@
 package marumasa.marumasa_car.vehicle;
 
-import marumasa.marumasa_car.MarumasaCar;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -12,6 +11,8 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 public class Car extends BukkitRunnable {
+
+    public static final Set<Interaction> SeatList = new HashSet<>();
 
     public static Set<Player> W = new HashSet<>();
     public static Set<Player> A = new HashSet<>();
@@ -46,7 +47,7 @@ public class Car extends BukkitRunnable {
                     display.setTeleportDuration(2);
                     Interaction interaction = (Interaction) world.spawnEntity(location, EntityType.INTERACTION);
                     display.addPassenger(interaction);
-                    MarumasaCar.SeatLink.put(interaction, interaction);
+                    SeatList.add(interaction);
                 } else {
                     display.setTeleportDuration(2);
                     display.setItemStack(new ItemStack(Material.STONE));
