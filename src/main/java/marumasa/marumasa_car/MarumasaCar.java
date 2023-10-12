@@ -12,8 +12,6 @@ public final class MarumasaCar extends JavaPlugin {
 
     public static final Map<String, List<String>> CarList = new HashMap<>();
 
-    public static final Map<Interaction, Interaction> SeatLink = new HashMap<>();
-
     @Override
     public void onEnable() {
         // Plugin startup logic
