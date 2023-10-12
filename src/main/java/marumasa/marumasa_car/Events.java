@@ -6,6 +6,7 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import marumasa.marumasa_car.vehicle.Car;
 import marumasa.marumasa_car.vehicle.TestCar;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -97,10 +98,8 @@ public class Events implements Listener {
 
     private void Ride(Entity entity, Player player) {
         if (entity instanceof Interaction interaction) {
-            Interaction display = MarumasaCar.SeatLink.get(interaction);
-
-            if (display == null) return;
-            display.addPassenger(player);
+            if (interaction.getPassengers().size() != 0 && !SeatList.contains(interaction)) return;
+            interaction.addPassenger(player);
         }
     }
 
