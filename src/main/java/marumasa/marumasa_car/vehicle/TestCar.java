@@ -7,7 +7,7 @@ import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestCar extends Car {
+public class TestCar extends Vehicle {
 
     @Override
     public List<Part> partsList() {
