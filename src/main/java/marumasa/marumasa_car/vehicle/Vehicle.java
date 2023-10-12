@@ -66,14 +66,14 @@ public class Vehicle extends BukkitRunnable {
         VehicleController.VehicleLink.put(stand, vehicle);
     }
 
-    protected Vehicle(ArmorStand armorStand) {
-        body = armorStand;
+    protected Vehicle(ArmorStand stand) {
+        body = stand;
         body.setInvisible(true);
         body.setSmall(true);
 
 
-        final World world = armorStand.getWorld();
-        final Location location = armorStand.getLocation();
+        final World world = body.getWorld();
+        final Location location = body.getLocation();
 
 
         for (Part part : partsList()) {
@@ -96,14 +96,24 @@ public class Vehicle extends BukkitRunnable {
 
 
     public static class Part {
-        public Vector vector;
-        public EntityType entityType;
+        public final Vector vector;
+        public final EntityType entityType;
 
-        public boolean isSeat;
+        public final boolean isSeat;
 
         public Part(Vector vector, EntityType entityType, boolean isSeat) {
             this.vector = vector;
             this.entityType = entityType;
+            this.isSeat = isSeat;
+        }
+
+        public Part(Vector vector, EntityType entityType) {
+            this(vector, entityType, false);
+        }
+
+        public Part(Vector vector, boolean isSeat) {
+            this.vector = vector;
+            this.entityType = EntityType.ITEM_DISPLAY;
             this.isSeat = isSeat;
         }
     }
