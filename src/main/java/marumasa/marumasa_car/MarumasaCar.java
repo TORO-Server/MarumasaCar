@@ -3,13 +3,7 @@ package marumasa.marumasa_car;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public final class MarumasaCar extends JavaPlugin {
-
-    public static final Map<String, List<String>> CarList = new HashMap<>();
 
     @Override
     public void onEnable() {
