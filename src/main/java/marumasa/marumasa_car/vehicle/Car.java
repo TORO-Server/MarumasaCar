@@ -19,15 +19,9 @@ public class Car extends BukkitRunnable {
     public static Set<Player> D = new HashSet<>();
     public static Set<Player> Jump = new HashSet<>();
 
-    public final ArmorStand body;
-    /*public final ArmorStand HitBox_X_Plus;
-    public final ArmorStand HitBox_X_Minus;
-    public final ArmorStand HitBox_Y_Plus;
-    public final ArmorStand HitBox_Y_Minus;
-    public final ArmorStand HitBox_Z_Plus;
-    public final ArmorStand HitBox_Z_Minus;*/
+    private final ArmorStand body;
 
-    public final List<Entity> parts = new ArrayList<>();
+    private final List<Entity> parts = new ArrayList<>();
 
     public List<Part> partsList() {
         return new ArrayList<>();
@@ -42,12 +36,6 @@ public class Car extends BukkitRunnable {
         final World world = armorStand.getWorld();
         final Location location = armorStand.getLocation();
 
-        /*HitBox_X_Plus = (ArmorStand) world.spawnEntity(location, EntityType.ARMOR_STAND);
-        HitBox_X_Minus = (ArmorStand) world.spawnEntity(location, EntityType.ARMOR_STAND);
-        HitBox_Y_Plus = (ArmorStand) world.spawnEntity(location, EntityType.ARMOR_STAND);
-        HitBox_Y_Minus = (ArmorStand) world.spawnEntity(location, EntityType.ARMOR_STAND);
-        HitBox_Z_Plus = (ArmorStand) world.spawnEntity(location, EntityType.ARMOR_STAND);
-        HitBox_Z_Minus = (ArmorStand) world.spawnEntity(location, EntityType.ARMOR_STAND);*/
 
         for (Part part : partsList()) {
             Entity entity = world.spawnEntity(location, part.entityType);
@@ -117,32 +105,11 @@ public class Car extends BukkitRunnable {
             entity.teleport(loc);
             addPassenger(passenger);
         }
-
-
-        /*HitBox_X_Plus.teleport(location.clone().add(2, 0, 0));
-        HitBox_X_Minus.teleport(location.clone().add(-2, 0, 0));
-        HitBox_Y_Plus.teleport(location.clone().add(0, 2, 0));
-        HitBox_Y_Minus.teleport(location.clone().add(0, -2, 0));
-        HitBox_Z_Plus.teleport(location.clone().add(0, 0, 2));
-        HitBox_Z_Minus.teleport(location.clone().add(0, 0, -2));*/
-
-        /*if (location.clone().add(2, 0, 0).getBlock().getType().isSolid()) {
-            if (vector.getX() > 0) vector.setX(0);
-        }
-        if (location.clone().add(-2, 0, 0).getBlock().getType().isSolid()) {
-            if (vector.getX() < 0) vector.setX(0);
-        }
-        if (location.clone().add(0, 0, 2).getBlock().getType().isSolid()) {
-            if (vector.getZ() > 0) vector.setZ(0);
-        }
-        if (location.clone().add(0, 0, -2).getBlock().getType().isSolid()) {
-            if (vector.getZ() < 0) vector.setZ(0);
-        }*/
         body.setVelocity(vector);
     }
 
     // Map<乗っているエンティティ,乗られているエンティティ>
-    public static Map<Entity, Entity> removePassenger(Entity entity) {
+    private static Map<Entity, Entity> removePassenger(Entity entity) {
         final Map<Entity, Entity> passengerData = new HashMap<>();
         for (Entity ride : entity.getPassengers()) {
             entity.removePassenger(ride);
@@ -151,7 +118,7 @@ public class Car extends BukkitRunnable {
         return passengerData;
     }
 
-    public static void addPassenger(Map<Entity, Entity> passengerData) {
+    private static void addPassenger(Map<Entity, Entity> passengerData) {
         for (Entity key : passengerData.keySet()) {
             passengerData.get(key).addPassenger(key);
         }
