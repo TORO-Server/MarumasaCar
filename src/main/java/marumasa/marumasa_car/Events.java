@@ -103,30 +103,16 @@ public class Events implements Listener {
     }
 
     private void Load(Entity entity) {
-        new waitLoad(entity).runTaskLater(mc, 5);
+        final Set<String> tags = entity.getScoreboardTags();
+        if (entity instanceof ArmorStand stand) {
+            if (tags.contains("marumasa.test")) {
+                TestCar.createVehicle(stand, mc);
+            }
+        }
     }
 
     private void Unload(Entity entity) {
         if (entity instanceof LivingEntity livingEntity) {
-        }
-    }
-
-    private class waitLoad extends BukkitRunnable {
-
-        private final Entity entity;
-
-        public waitLoad(Entity entity) {
-            this.entity = entity;
-        }
-
-        @Override
-        public void run() {
-            final Set<String> tags = entity.getScoreboardTags();
-            if (entity instanceof ArmorStand stand) {
-                if (tags.contains("marumasa.test")) {
-                    TestCar.createVehicle(stand, mc);
-                }
-            }
         }
     }
 }
