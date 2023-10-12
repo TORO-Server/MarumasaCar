@@ -8,13 +8,24 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Car extends BukkitRunnable {
+
+    public static Set<Player> W = new HashSet<>();
+    public static Set<Player> A = new HashSet<>();
+    public static Set<Player> S = new HashSet<>();
+    public static Set<Player> D = new HashSet<>();
+    public static Set<Player> Jump = new HashSet<>();
+
     public final ArmorStand body;
+    /*public final ArmorStand HitBox_X_Plus;
+    public final ArmorStand HitBox_X_Minus;
+    public final ArmorStand HitBox_Y_Plus;
+    public final ArmorStand HitBox_Y_Minus;
+    public final ArmorStand HitBox_Z_Plus;
+    public final ArmorStand HitBox_Z_Minus;*/
+
     public final List<Entity> parts = new ArrayList<>();
 
     public List<Part> partsList() {
@@ -30,6 +41,12 @@ public class Car extends BukkitRunnable {
         final World world = armorStand.getWorld();
         final Location location = armorStand.getLocation();
 
+        /*HitBox_X_Plus = (ArmorStand) world.spawnEntity(location, EntityType.ARMOR_STAND);
+        HitBox_X_Minus = (ArmorStand) world.spawnEntity(location, EntityType.ARMOR_STAND);
+        HitBox_Y_Plus = (ArmorStand) world.spawnEntity(location, EntityType.ARMOR_STAND);
+        HitBox_Y_Minus = (ArmorStand) world.spawnEntity(location, EntityType.ARMOR_STAND);
+        HitBox_Z_Plus = (ArmorStand) world.spawnEntity(location, EntityType.ARMOR_STAND);
+        HitBox_Z_Minus = (ArmorStand) world.spawnEntity(location, EntityType.ARMOR_STAND);*/
 
         for (Part part : partsList()) {
             Entity entity = world.spawnEntity(location, part.entityType);
@@ -48,6 +65,7 @@ public class Car extends BukkitRunnable {
             }
         }
     }
+
 
     public static class Part {
         public Vector vector;
@@ -73,9 +91,18 @@ public class Car extends BukkitRunnable {
             final Location mainSeatRiderLoc = mainSeatRider.get(0).getLocation();
             final float yaw = mainSeatRiderLoc.getYaw();
             body.setRotation(yaw, 0);
-            vector.add(new Vector(0, 0, 1.5).rotateAroundY(-Math.toRadians(yaw)));
+            if (W.contains((Player) mainSeatRider.get(0))) {
+                vector.add(new Vector(0, 0, 1.5).rotateAroundY(-Math.toRadians(yaw)));
+            } else if (S.contains((Player) mainSeatRider.get(0))) {
+                vector.add(new Vector(0, 0, -1.5).rotateAroundY(-Math.toRadians(yaw)));
+            }
+            if (A.contains((Player) mainSeatRider.get(0))) {
+                vector.add(new Vector(0.5, 0, 0).rotateAroundY(-Math.toRadians(yaw)));
+            } else if (D.contains((Player) mainSeatRider.get(0))) {
+                vector.add(new Vector(-0.5, 0, 0).rotateAroundY(-Math.toRadians(yaw)));
+            }
         }
-        body.setVelocity(vector);
+
 
         final float yaw = location.getYaw();
         for (int i = 0; i < parts.size(); i++) {
@@ -87,6 +114,28 @@ public class Car extends BukkitRunnable {
             entity.teleport(loc);
             addPassenger(passenger);
         }
+
+
+        /*HitBox_X_Plus.teleport(location.clone().add(2, 0, 0));
+        HitBox_X_Minus.teleport(location.clone().add(-2, 0, 0));
+        HitBox_Y_Plus.teleport(location.clone().add(0, 2, 0));
+        HitBox_Y_Minus.teleport(location.clone().add(0, -2, 0));
+        HitBox_Z_Plus.teleport(location.clone().add(0, 0, 2));
+        HitBox_Z_Minus.teleport(location.clone().add(0, 0, -2));*/
+
+        if (location.clone().add(2, 0, 0).getBlock().getType().isSolid()) {
+            if (vector.getX() > 0) vector.setX(0);
+        }
+        if (location.clone().add(-2, 0, 0).getBlock().getType().isSolid()) {
+            if (vector.getX() < 0) vector.setX(0);
+        }
+        if (location.clone().add(0, 0, 2).getBlock().getType().isSolid()) {
+            if (vector.getZ() > 0) vector.setZ(0);
+        }
+        if (location.clone().add(0, 0, -2).getBlock().getType().isSolid()) {
+            if (vector.getZ() < 0) vector.setZ(0);
+        }
+        body.setVelocity(vector);
 
     }
 
@@ -108,10 +157,10 @@ public class Car extends BukkitRunnable {
 
     private static Vector createVector(Location location) {
 
-        if (location.clone().add(0, -1, 0).getBlock().getType().isSolid())
-            return new Vector(0, 0.2, 0);
+        if (location.clone().add(0, -1.2, 0).getBlock().getType().isSolid())
+            return new Vector(0, 0.3, 0);
 
-        else if (location.clone().add(0, -1.3, 0).getBlock().getType().isAir())
+        else if (!location.clone().add(0, -1.4, 0).getBlock().getType().isSolid())
             return new Vector(0, -0.5, 0);
 
         return new Vector(0, 0, 0);
