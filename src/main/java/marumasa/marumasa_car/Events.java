@@ -15,7 +15,6 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.world.EntitiesLoadEvent;
 import org.bukkit.event.world.EntitiesUnloadEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Set;
 
@@ -24,9 +23,9 @@ import static marumasa.marumasa_car.vehicle.Vehicle.*;
 public class Events implements Listener {
 
     private final Config cfg;
-    private final MarumasaCar mc;
+    private final Minecraft mc;
 
-    public Events(Config config, MarumasaCar minecraft) {
+    public Events(Config config, Minecraft minecraft) {
         cfg = config;
         mc = minecraft;
 

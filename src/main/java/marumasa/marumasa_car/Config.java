@@ -4,7 +4,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class Config {
 
-    public Config(final MarumasaCar plugin) {
+    public Config(final Minecraft plugin) {
         plugin.saveDefaultConfig();
         FileConfiguration config = plugin.getConfig();
     }

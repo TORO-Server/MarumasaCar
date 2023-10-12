@@ -1,5 +1,5 @@
 name: MarumasaCar
 version: '${version}'
-main: marumasa.marumasa_car.MarumasaCar
+main: marumasa.marumasa_car.Minecraft
 api-version: '1.20'
 depend: [ ProtocolLib ]

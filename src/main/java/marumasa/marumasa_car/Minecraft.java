@@ -3,7 +3,7 @@ package marumasa.marumasa_car;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class MarumasaCar extends JavaPlugin {
+public final class Minecraft extends JavaPlugin {
 
     @Override
     public void onEnable() {
