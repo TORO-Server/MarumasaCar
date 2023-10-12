@@ -6,7 +6,6 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import marumasa.marumasa_car.vehicle.Car;
 import marumasa.marumasa_car.vehicle.TestCar;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -20,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Set;
 
-import static marumasa.marumasa_car.vehicle.Car.*;
+import static marumasa.marumasa_car.vehicle.Vehicle.*;
 
 public class Events implements Listener {
 
