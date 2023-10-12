@@ -122,9 +122,9 @@ public class Events implements Listener {
         @Override
         public void run() {
             final Set<String> tags = entity.getScoreboardTags();
-            if (entity instanceof ArmorStand armorStand) {
+            if (entity instanceof ArmorStand stand) {
                 if (tags.contains("marumasa.test")) {
-                    new TestCar(armorStand).runTaskTimer(mc, 0, 0);
+                    TestCar.createVehicle(stand, mc);
                 }
             }
         }

@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -58,7 +59,11 @@ public class Vehicle extends BukkitRunnable {
         return new ArrayList<>();
     }
 
-    public Vehicle(ArmorStand armorStand) {
+    public static void createVehicle(ArmorStand stand, JavaPlugin pl) {
+        new Vehicle(stand).runTaskTimer(pl, 0, 0);
+    }
+
+    private Vehicle(ArmorStand armorStand) {
         body = armorStand;
         body.setInvisible(true);
         body.setSmall(true);
