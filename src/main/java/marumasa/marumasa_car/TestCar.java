@@ -12,11 +12,11 @@ public class TestCar extends Car {
     @Override
     public List<Part> partsList() {
         return new ArrayList<>() {{
-            add(new Part(new Vector(0.5, -0.5, 0.5), EntityType.ITEM_DISPLAY, true));
-            add(new Part(new Vector(0.5, -0.5, -0.5), EntityType.ITEM_DISPLAY, true));
-            add(new Part(new Vector(-0.5, -0.5, -0.5), EntityType.ITEM_DISPLAY, true));
-            add(new Part(new Vector(-0.5, -0.5, 0.5), EntityType.ITEM_DISPLAY, true));
-            add(new Part(new Vector(0, -0.5, 0), EntityType.ITEM_DISPLAY, false));
+            add(new Part(new Vector(0.5, 0.5, 0.5), EntityType.ITEM_DISPLAY, true));
+            add(new Part(new Vector(0.5, 0.5, -0.5), EntityType.ITEM_DISPLAY, true));
+            add(new Part(new Vector(-0.5, 0.5, -0.5), EntityType.ITEM_DISPLAY, true));
+            add(new Part(new Vector(-0.5, 0.5, 0.5), EntityType.ITEM_DISPLAY, true));
+            add(new Part(new Vector(0, 0.5, 0), EntityType.ITEM_DISPLAY, false));
         }};
     }
 

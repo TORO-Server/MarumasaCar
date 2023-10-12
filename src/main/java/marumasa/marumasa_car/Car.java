@@ -86,20 +86,22 @@ public class Car extends BukkitRunnable {
         Entity mainSeat = parts.get(0);
         List<Entity> mainSeatRider = mainSeat.getPassengers().get(0).getPassengers();
 
+        final double speed = isSolid(location.clone().add(0, -0.1, 0)) ? 0.5 : 0.2;
+
         Vector vector = createVector(location);
         if (mainSeatRider.size() == 1) {
             final Location mainSeatRiderLoc = mainSeatRider.get(0).getLocation();
             final float yaw = mainSeatRiderLoc.getYaw();
             body.setRotation(yaw, 0);
             if (W.contains((Player) mainSeatRider.get(0))) {
-                vector.add(new Vector(0, 0, 1.5).rotateAroundY(-Math.toRadians(yaw)));
+                vector.add(new Vector(0, 0, speed).rotateAroundY(-Math.toRadians(yaw)));
             } else if (S.contains((Player) mainSeatRider.get(0))) {
-                vector.add(new Vector(0, 0, -1.5).rotateAroundY(-Math.toRadians(yaw)));
+                vector.add(new Vector(0, 0, -speed).rotateAroundY(-Math.toRadians(yaw)));
             }
             if (A.contains((Player) mainSeatRider.get(0))) {
-                vector.add(new Vector(0.5, 0, 0).rotateAroundY(-Math.toRadians(yaw)));
+                vector.add(new Vector(speed, 0, 0).rotateAroundY(-Math.toRadians(yaw)));
             } else if (D.contains((Player) mainSeatRider.get(0))) {
-                vector.add(new Vector(-0.5, 0, 0).rotateAroundY(-Math.toRadians(yaw)));
+                vector.add(new Vector(-speed, 0, 0).rotateAroundY(-Math.toRadians(yaw)));
             }
         }
 
@@ -123,7 +125,7 @@ public class Car extends BukkitRunnable {
         HitBox_Z_Plus.teleport(location.clone().add(0, 0, 2));
         HitBox_Z_Minus.teleport(location.clone().add(0, 0, -2));*/
 
-        if (location.clone().add(2, 0, 0).getBlock().getType().isSolid()) {
+        /*if (location.clone().add(2, 0, 0).getBlock().getType().isSolid()) {
             if (vector.getX() > 0) vector.setX(0);
         }
         if (location.clone().add(-2, 0, 0).getBlock().getType().isSolid()) {
@@ -134,9 +136,8 @@ public class Car extends BukkitRunnable {
         }
         if (location.clone().add(0, 0, -2).getBlock().getType().isSolid()) {
             if (vector.getZ() < 0) vector.setZ(0);
-        }
+        }*/
         body.setVelocity(vector);
-
     }
 
     // Map<乗っているエンティティ,乗られているエンティティ>
@@ -155,15 +156,49 @@ public class Car extends BukkitRunnable {
         }
     }
 
-    private static Vector createVector(Location location) {
+    private static boolean isSolid(Location loc) {
+        return loc.getBlock().getType().isSolid();
+    }
 
-        if (location.clone().add(0, -1.2, 0).getBlock().getType().isSolid())
-            return new Vector(0, 0.3, 0);
+    private static boolean isOccluding(Location loc) {
+        return loc.getBlock().getType().isOccluding();
+    }
 
-        else if (!location.clone().add(0, -1.4, 0).getBlock().getType().isSolid())
-            return new Vector(0, -0.5, 0);
+    private static boolean tryStep(double x, double z, Location loc) {
+        boolean isOnFullBlock = loc.getY() % 1 == 0;
+        if (isOnFullBlock)
+            return isSolid(loc.clone().add(x, 0.9, z)) && !isSolid(loc.clone().add(x, 1, z));
+        else
+            return isOccluding(loc.clone().add(x, 0, z)) && !isSolid(loc.clone().add(x, 0.9, z));
+    }
 
-        return new Vector(0, 0, 0);
+    private Vector createVector(Location location) {
+        Location locationClone = location.clone();
+
+        boolean isChange = false;
+
+        float checkStep = 0.15f;
+
+        if (tryStep(checkStep, 0, location)) {
+            locationClone.add(checkStep, 0, 0);
+            isChange = true;
+        }
+        if (tryStep(-checkStep, 0, location)) {
+            locationClone.add(-checkStep, 0, 0);
+            isChange = true;
+        }
+        if (tryStep(0, checkStep, location)) {
+            locationClone.add(0, 0, checkStep);
+            isChange = true;
+        }
+        if (tryStep(0, -checkStep, location)) {
+            locationClone.add(0, 0, -checkStep);
+            isChange = true;
+        }
+        if (isChange) {
+            body.teleport(locationClone.add(0, 1, 0));
+        }
+        return body.getVelocity();
     }
 
     public void remove() {
