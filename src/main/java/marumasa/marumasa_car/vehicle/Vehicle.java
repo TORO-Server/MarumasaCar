@@ -20,6 +20,28 @@ public class Vehicle extends BukkitRunnable {
     public static Set<Player> D = new HashSet<>();
     public static Set<Player> Jump = new HashSet<>();
 
+
+    public float moveSpeed() {
+        return 0.5f;
+    }
+
+    public float slideSpeed() {
+        return 0.2f;
+    }
+
+    public float backSpeed() {
+        return 0.3f;
+    }
+
+    public float fallingSubSpeed() {
+        return 2f;
+    }
+
+    private double generateSpeed(float speed) {
+        return isSolid(body.getLocation().add(0, -0.1, 0)) ? speed : speed / fallingSubSpeed();
+    }
+
+
     private final ArmorStand body;
 
     private final List<Entity> parts = new ArrayList<>();
@@ -76,7 +98,6 @@ public class Vehicle extends BukkitRunnable {
         Entity mainSeat = parts.get(0);
         List<Entity> mainSeatRider = mainSeat.getPassengers().get(0).getPassengers();
 
-        final double speed = isSolid(location.clone().add(0, -0.1, 0)) ? 0.5 : 0.2;
 
         Vector vector = createVector(location);
         if (mainSeatRider.size() == 1) {
@@ -84,14 +105,14 @@ public class Vehicle extends BukkitRunnable {
             final float yaw = mainSeatRiderLoc.getYaw();
             body.setRotation(yaw, 0);
             if (W.contains((Player) mainSeatRider.get(0))) {
-                vector.add(new Vector(0, 0, speed).rotateAroundY(-Math.toRadians(yaw)));
+                vector.add(new Vector(0, 0, generateSpeed(moveSpeed())).rotateAroundY(-Math.toRadians(yaw)));
             } else if (S.contains((Player) mainSeatRider.get(0))) {
-                vector.add(new Vector(0, 0, -speed).rotateAroundY(-Math.toRadians(yaw)));
+                vector.add(new Vector(0, 0, -generateSpeed(backSpeed())).rotateAroundY(-Math.toRadians(yaw)));
             }
             if (A.contains((Player) mainSeatRider.get(0))) {
-                vector.add(new Vector(speed, 0, 0).rotateAroundY(-Math.toRadians(yaw)));
+                vector.add(new Vector(generateSpeed(slideSpeed()), 0, 0).rotateAroundY(-Math.toRadians(yaw)));
             } else if (D.contains((Player) mainSeatRider.get(0))) {
-                vector.add(new Vector(-speed, 0, 0).rotateAroundY(-Math.toRadians(yaw)));
+                vector.add(new Vector(-generateSpeed(slideSpeed()), 0, 0).rotateAroundY(-Math.toRadians(yaw)));
             }
         }
 
