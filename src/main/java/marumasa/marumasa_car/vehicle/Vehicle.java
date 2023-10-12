@@ -34,13 +34,21 @@ public class Vehicle extends BukkitRunnable {
     }
 
     public float fallingSubSpeed() {
-        return 2f;
+        return 4f;
+    }
+
+    public float waterSubSpeed() {
+        return 3f;
     }
 
     private double generateSpeed(float speed) {
-        return isSolid(body.getLocation().add(0, -0.1, 0)) ? speed : speed / fallingSubSpeed();
+        Location loc = body.getLocation().add(0, -0.1, 0);
+        if (isSolid(loc)) {
+            return inWater() ? speed / waterSubSpeed() : speed;
+        } else {
+            return speed / fallingSubSpeed();
+        }
     }
-
 
     private final ArmorStand body;
 
@@ -148,6 +156,10 @@ public class Vehicle extends BukkitRunnable {
 
     private static boolean isSolid(Location loc) {
         return loc.getBlock().getType().isSolid();
+    }
+
+    private boolean inWater() {
+        return body.getLocation().getBlock().getType().equals(Material.WATER);
     }
 
     private static boolean isOccluding(Location loc) {
