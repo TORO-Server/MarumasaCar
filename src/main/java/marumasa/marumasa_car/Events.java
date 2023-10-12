@@ -1,5 +1,11 @@
 package marumasa.marumasa_car;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,6 +18,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Set;
 
+import static marumasa.marumasa_car.Car.*;
+
 public class Events implements Listener {
 
     private final Config cfg;
@@ -20,6 +28,43 @@ public class Events implements Listener {
     public Events(Config config, MarumasaCar minecraft) {
         cfg = config;
         mc = minecraft;
+
+        ProtocolLibrary.getProtocolManager().addPacketListener(new PacketAdapter(mc, ListenerPriority.HIGHEST, PacketType.Play.Client.STEER_VEHICLE) {
+            @Override
+            public void onPacketReceiving(PacketEvent event) {
+                PacketContainer packet = event.getPacket();
+                Player player = event.getPlayer();
+
+                Entity b = player.getVehicle();
+                if (b instanceof Player) {
+                    return;
+                }
+
+                if (packet.getFloat().read(1) > 0) {
+                    W.add(player);
+                } else if (packet.getFloat().read(1) < 0) {
+                    S.add(player);
+                } else {
+                    W.remove(player);
+                    S.remove(player);
+                }
+
+                if (packet.getFloat().read(0) > 0) {
+                    A.add(player);
+                } else if (packet.getFloat().read(0) < 0) {
+                    D.add(player);
+                } else {
+                    A.remove(player);
+                    D.remove(player);
+                }
+
+                if (packet.getBooleans().read(0)) {
+                    Jump.add(player);
+                } else {
+                    Jump.remove(player);
+                }
+            }
+        });
     }
 
     @EventHandler
