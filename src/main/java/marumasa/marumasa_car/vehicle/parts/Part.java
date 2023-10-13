@@ -28,7 +28,7 @@ public class Part {
         LoadingParts.add(entity);
 
         if (entity instanceof Interaction interaction)
-           InteractionLink.put(interaction, vehicle.body);
+            InteractionLink.put(interaction, vehicle.body);
 
         return entity;
     }
