@@ -32,12 +32,4 @@ public class ExampleCar extends Vehicle {
             add(new MainSeat(new Vector(-0.5, 0.5, 0.5)));
         }};
     }
-
-    @Override
-    public void remove() {
-
-        dropVehicleItem(tag);
-
-        super.remove();
-    }
 }
