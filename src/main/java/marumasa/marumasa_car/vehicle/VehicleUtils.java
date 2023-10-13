@@ -5,6 +5,7 @@ import org.bukkit.entity.Entity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class VehicleUtils {
 
@@ -22,6 +23,10 @@ public class VehicleUtils {
         for (Entity key : passengerData.keySet()) {
             passengerData.get(key).addPassenger(key);
         }
+    }
+
+    public static boolean isVehicleParts(Set<String> tags) {
+        return tags.contains("marumasa.vehicle.part");
     }
 
     public static boolean isSolid(Location loc) {

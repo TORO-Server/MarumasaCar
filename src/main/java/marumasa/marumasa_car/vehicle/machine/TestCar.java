@@ -29,14 +29,4 @@ public class TestCar extends Vehicle {
             add(new MainSeat(new Vector(-0.5, 0.5, 0.5)));
         }};
     }
-
-    @Override
-    public void run() {
-        super.run();
-    }
-
-    @Override
-    public void remove() {
-        super.remove();
-    }
 }

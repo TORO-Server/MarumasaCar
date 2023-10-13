@@ -72,8 +72,14 @@ public class VehicleEventManager {
     }
 
     public void load(Entity entity) {
+        final Set<String> tags = entity.getScoreboardTags();
+
+        if (VehicleUtils.isVehicleParts(tags)) {
+            entity.remove();
+            return;
+        }
+
         if (entity instanceof ArmorStand stand) {
-            final Set<String> tags = entity.getScoreboardTags();
             load(stand, tags);
         }
     }
@@ -81,7 +87,7 @@ public class VehicleEventManager {
     public void unload(Entity entity) {
         if (entity instanceof ArmorStand stand) {
             Vehicle vehicle = VehicleController.VehicleLink.get(stand);
-            if (vehicle != null) vehicle.remove();
+            if (vehicle != null) vehicle.unload();
         }
     }
 

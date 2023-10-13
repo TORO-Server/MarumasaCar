@@ -39,6 +39,7 @@ public class Vehicle extends BukkitRunnable {
     public float jumpPower() {
         return 0.5f;
     }
+
     public float waterSubJump() {
         return 6f;
     }
@@ -56,7 +57,7 @@ public class Vehicle extends BukkitRunnable {
         Location loc = location.clone().add(0, -0.1, 0);
         if (isSolid(loc)) {
             return jumpPower();
-        }else {
+        } else {
             return inWater() ? jumpPower() / waterSubJump() : 0;
         }
     }
@@ -193,7 +194,12 @@ public class Vehicle extends BukkitRunnable {
         }
     }
 
-    public void remove() {
+    public void unload() {
         this.cancel();
+        for (Entity entity : EntityListAll) entity.remove();
+    }
+
+    public void remove() {
+        unload();
     }
 }

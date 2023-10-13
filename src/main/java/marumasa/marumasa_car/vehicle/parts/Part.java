@@ -18,6 +18,7 @@ public class Part {
 
     public Entity create(World world, Location location, Vehicle vehicle) {
         final Entity entity = world.spawnEntity(location, entityType);
+        entity.addScoreboardTag("marumasa.vehicle.part");
         vehicle.EntityListAll.add(entity);
         return entity;
     }
