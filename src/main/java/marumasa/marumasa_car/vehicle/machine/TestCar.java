@@ -15,6 +15,8 @@ import java.util.List;
 
 public class TestCar extends Vehicle {
 
+    public static final String tag = "marumasa.test";
+
     public TestCar(ArmorStand stand, JavaPlugin pl) {
         super(stand, pl);
     }
@@ -28,5 +30,11 @@ public class TestCar extends Vehicle {
             add(new Body(new Vector(0, 0.5, 0), Material.DISC_FRAGMENT_5));
             add(new MainSeat(new Vector(-0.5, 0.5, 0.5)));
         }};
+    }
+
+    @Override
+    public void remove() {
+        super.remove();
+
     }
 }

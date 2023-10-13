@@ -10,6 +10,7 @@ import java.util.List;
 import marumasa.marumasa_car.vehicle.parts.Part;
 
 public class ExampleCar extends Vehicle {
+    public static final String tag = "marumasa.example";
 
     public ExampleCar(ArmorStand stand, JavaPlugin pl) {
         super(stand, pl);
