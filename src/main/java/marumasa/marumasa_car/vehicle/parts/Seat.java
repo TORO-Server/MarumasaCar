@@ -10,9 +10,19 @@ import org.bukkit.util.Vector;
 public class Seat extends TrackingDisplay {
 
     public Interaction seat;
+    public final float width;
+    public final float height;
 
     public Seat(Vector vector) {
         super(vector, EntityType.ITEM_DISPLAY);
+        width = 1;
+        height = 1;
+    }
+
+    public Seat(Vector vector, float width, float height) {
+        super(vector, EntityType.ITEM_DISPLAY);
+        this.width = width;
+        this.height = height;
     }
 
     @Override
@@ -25,6 +35,9 @@ public class Seat extends TrackingDisplay {
                 vector,
                 EntityType.INTERACTION
         ).create(world, location, vehicle);
+
+        seat.setInteractionWidth(width);
+        seat.setInteractionHeight(height);
 
         itemDisplay.addPassenger(seat);
         VehicleController.SeatList.add(seat);

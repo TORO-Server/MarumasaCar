@@ -12,6 +12,10 @@ public class MainSeat extends Seat {
         super(vector);
     }
 
+    public MainSeat(Vector vector, float width, float height) {
+        super(vector, width, height);
+    }
+
     @Override
     public Display create(World world, Location location, Vehicle vehicle) {
         final ItemDisplay itemDisplay = (ItemDisplay) super.create(world, location, vehicle);
