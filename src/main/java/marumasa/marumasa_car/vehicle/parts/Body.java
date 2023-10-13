@@ -4,13 +4,12 @@ import marumasa.marumasa_car.vehicle.Vehicle;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-public class Body extends Tracking {
+public class Body extends TrackingDisplay {
     public final Material material;
 
     public Body(Vector vector, Material material) {
@@ -19,7 +18,7 @@ public class Body extends Tracking {
     }
 
     @Override
-    public Entity create(World world, Location location, Vehicle vehicle) {
+    public ItemDisplay create(World world, Location location, Vehicle vehicle) {
         final ItemDisplay itemDisplay = (ItemDisplay) super.create(world, location, vehicle);
 
         ItemStack itemStack = new ItemStack(material);

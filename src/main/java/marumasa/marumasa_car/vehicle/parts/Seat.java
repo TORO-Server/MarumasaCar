@@ -4,13 +4,10 @@ import marumasa.marumasa_car.vehicle.Vehicle;
 import marumasa.marumasa_car.vehicle.VehicleController;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Interaction;
-import org.bukkit.entity.ItemDisplay;
+import org.bukkit.entity.*;
 import org.bukkit.util.Vector;
 
-public class Seat extends Tracking {
+public class Seat extends TrackingDisplay {
 
     public Interaction seat;
 
@@ -19,7 +16,7 @@ public class Seat extends Tracking {
     }
 
     @Override
-    public Entity create(World world, Location location, Vehicle vehicle) {
+    public Display create(World world, Location location, Vehicle vehicle) {
         final ItemDisplay itemDisplay = (ItemDisplay) super.create(world, location, vehicle);
 
         itemDisplay.setTeleportDuration(2);
