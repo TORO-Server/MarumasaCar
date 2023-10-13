@@ -124,7 +124,7 @@ public class VehicleEventManager {
 
     public void ride(Entity entity, Player player) {
         if (entity instanceof Interaction interaction) {
-            if (interaction.getPassengers().size() != 0 && !VehicleController.SeatList.contains(interaction)) return;
+            if (interaction.getPassengers().size() != 0 || !VehicleController.SeatList.contains(interaction)) return;
             interaction.addPassenger(player);
         }
     }
