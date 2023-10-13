@@ -24,14 +24,14 @@ public class ExampleCar extends Vehicle {
     @Override
     public List<Part> partsList() {
         return new ArrayList<>() {{
-            add(new MainSeat(new Vector(0.5, 0.5, 0.5), 0.5f, 0.5f));
-            add(new Seat(new Vector(0.5, 0.5, -0.5), 0.5f, 0.5f));
-            add(new Seat(new Vector(-0.5, 0.5, -0.5), 0.5f, 0.5f));
-            add(new Seat(new Vector(-0.5, 0.5, 0.5), 0.5f, 0.5f));
+            add(new MainSeat(new Vector(0.48, 0.5, 0.45), 0.8f, 1));
+            add(new Seat(new Vector(0.48, 0.5, -0.7), 0.8f, 1));
+            add(new Seat(new Vector(-0.48, 0.5, -0.7), 0.8f, 1));
+            add(new Seat(new Vector(-0.48, 0.5, 0.45), 0.8f, 1));
             add(new Body(
                     Material.DISC_FRAGMENT_5,
-                    new Vector3f(0f, 0f, 0.5f),
-                    new Vector3f(2.2f),
+                    new Vector3f(0f, 0f, 0.65f),
+                    new Vector3f(2.6f),
                     1
             ));
         }};
