@@ -6,6 +6,7 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import marumasa.marumasa_car.vehicle.machine.ExampleCar;
 import marumasa.marumasa_car.vehicle.machine.TestCar;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
@@ -21,6 +22,8 @@ public class VehicleEventManager {
     public void load(ArmorStand stand, Set<String> tags) {
         if (tags.contains("marumasa.test")) {
             new TestCar(stand, pl);
+        } else if (tags.contains("marumasa.example")) {
+            new ExampleCar(stand, pl);
         }
     }
 
