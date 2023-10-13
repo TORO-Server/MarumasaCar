@@ -8,6 +8,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import marumasa.marumasa_car.vehicle.TestCar;
 import marumasa.marumasa_car.vehicle.Vehicle;
+import marumasa.marumasa_car.vehicle.VehicleController;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,8 +19,6 @@ import org.bukkit.event.world.EntitiesLoadEvent;
 import org.bukkit.event.world.EntitiesUnloadEvent;
 
 import java.util.Set;
-
-import static marumasa.marumasa_car.vehicle.Vehicle.*;
 
 public class Events implements Listener {
 
@@ -42,27 +41,27 @@ public class Events implements Listener {
                 }
 
                 if (packet.getFloat().read(1) > 0) {
-                    W.add(player);
+                    VehicleController.W.add(player);
                 } else if (packet.getFloat().read(1) < 0) {
-                    S.add(player);
+                    VehicleController.S.add(player);
                 } else {
-                    W.remove(player);
-                    S.remove(player);
+                    VehicleController.W.remove(player);
+                    VehicleController.S.remove(player);
                 }
 
                 if (packet.getFloat().read(0) > 0) {
-                    A.add(player);
+                    VehicleController.A.add(player);
                 } else if (packet.getFloat().read(0) < 0) {
-                    D.add(player);
+                    VehicleController.D.add(player);
                 } else {
-                    A.remove(player);
-                    D.remove(player);
+                    VehicleController.A.remove(player);
+                    VehicleController.D.remove(player);
                 }
 
                 if (packet.getBooleans().read(0)) {
-                    Jump.add(player);
+                    VehicleController.Jump.add(player);
                 } else {
-                    Jump.remove(player);
+                    VehicleController.Jump.remove(player);
                 }
             }
         });
@@ -97,7 +96,7 @@ public class Events implements Listener {
 
     private void Ride(Entity entity, Player player) {
         if (entity instanceof Interaction interaction) {
-            if (interaction.getPassengers().size() != 0 && !SeatList.contains(interaction)) return;
+            if (interaction.getPassengers().size() != 0 && !VehicleController.SeatList.contains(interaction)) return;
             interaction.addPassenger(player);
         }
     }
@@ -106,7 +105,7 @@ public class Events implements Listener {
         final Set<String> tags = entity.getScoreboardTags();
         if (entity instanceof ArmorStand stand) {
             if (tags.contains("marumasa.test")) {
-                TestCar.createVehicle(stand, mc);
+               new  TestCar(stand, mc);
             }
         }
     }

@@ -1,6 +1,5 @@
 package marumasa.marumasa_car.vehicle;
 
-import marumasa.marumasa_car.VehicleController;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -12,23 +11,9 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
+import static marumasa.marumasa_car.vehicle.VehicleUtils.*;
+
 public class Vehicle extends BukkitRunnable {
-
-    public static final Set<Interaction> SeatList = new HashSet<>();
-
-    public static Set<Player> W = new HashSet<>();
-    public static Set<Player> A = new HashSet<>();
-    public static Set<Player> S = new HashSet<>();
-    public static Set<Player> D = new HashSet<>();
-    public static Set<Player> Jump = new HashSet<>();
-
-    public static void createVehicle(ArmorStand stand, JavaPlugin pl) {
-        final Vehicle vehicle = new Vehicle(stand);
-        vehicle.runTaskTimer(pl, 0, 0);
-        VehicleController.VehicleLink.put(stand, vehicle);
-    }
-
-
     public float moveSpeed() {
         return 0.4f;
     }
@@ -69,7 +54,11 @@ public class Vehicle extends BukkitRunnable {
     private Location location;
 
 
-    protected Vehicle(ArmorStand stand) {
+    public Vehicle(ArmorStand stand, JavaPlugin pl) {
+
+        this.runTaskTimer(pl, 0, 0);
+        VehicleController.VehicleLink.put(stand, this);
+
         body = stand;
         body.setInvisible(true);
         body.setSmall(true);
@@ -96,14 +85,14 @@ public class Vehicle extends BukkitRunnable {
             final Location mainSeatRiderLoc = mainSeatRider.get(0).getLocation();
             final float yaw = mainSeatRiderLoc.getYaw();
             body.setRotation(yaw, 0);
-            if (W.contains((Player) mainSeatRider.get(0))) {
+            if (VehicleController.W.contains((Player) mainSeatRider.get(0))) {
                 vector.add(new Vector(0, 0, generateSpeed(moveSpeed())).rotateAroundY(-Math.toRadians(yaw)));
-            } else if (S.contains((Player) mainSeatRider.get(0))) {
+            } else if (VehicleController.S.contains((Player) mainSeatRider.get(0))) {
                 vector.add(new Vector(0, 0, -generateSpeed(backSpeed())).rotateAroundY(-Math.toRadians(yaw)));
             }
-            if (A.contains((Player) mainSeatRider.get(0))) {
+            if (VehicleController.A.contains((Player) mainSeatRider.get(0))) {
                 vector.add(new Vector(generateSpeed(slideSpeed()), 0, 0).rotateAroundY(-Math.toRadians(yaw)));
-            } else if (D.contains((Player) mainSeatRider.get(0))) {
+            } else if (VehicleController.D.contains((Player) mainSeatRider.get(0))) {
                 vector.add(new Vector(-generateSpeed(slideSpeed()), 0, 0).rotateAroundY(-Math.toRadians(yaw)));
             }
         }
@@ -120,30 +109,6 @@ public class Vehicle extends BukkitRunnable {
             addPassenger(passenger);
         }
         body.setVelocity(vector);
-    }
-
-    // Map<乗っているエンティティ,乗られているエンティティ>
-    private static Map<Entity, Entity> removePassenger(Entity entity) {
-        final Map<Entity, Entity> passengerData = new HashMap<>();
-        for (Entity ride : entity.getPassengers()) {
-            entity.removePassenger(ride);
-            passengerData.put(ride, entity);
-        }
-        return passengerData;
-    }
-
-    private static void addPassenger(Map<Entity, Entity> passengerData) {
-        for (Entity key : passengerData.keySet()) {
-            passengerData.get(key).addPassenger(key);
-        }
-    }
-
-    private static boolean isSolid(Location loc) {
-        return loc.getBlock().getType().isSolid();
-    }
-
-    private static boolean isOccluding(Location loc) {
-        return loc.getBlock().getType().isOccluding();
     }
 
     private boolean inWater() {
@@ -225,7 +190,7 @@ public class Vehicle extends BukkitRunnable {
                     display.setTeleportDuration(2);
                     Interaction interaction = (Interaction) world.spawnEntity(location, EntityType.INTERACTION);
                     display.addPassenger(interaction);
-                    SeatList.add(interaction);
+                    VehicleController.SeatList.add(interaction);
                 } else {
                     display.setTeleportDuration(2);
                     display.setItemStack(new ItemStack(Material.STONE));
