@@ -22,8 +22,8 @@ public class Body extends TrackingDisplay {
     public final Vector3f translation;
     public final Vector3f scale;
 
-    public Body(Vector vector, Material material, Integer customModelData) {
-        this(vector, material, new Vector3f(0), new Vector3f(1), customModelData);
+    public Body(Material material, Vector3f translation, Vector3f scale, Integer customModelData) {
+        this(new Vector(), material, translation, scale, customModelData);
     }
 
     public Body(Vector vector, Material material, Vector3f translation, Vector3f scale, Integer customModelData) {
