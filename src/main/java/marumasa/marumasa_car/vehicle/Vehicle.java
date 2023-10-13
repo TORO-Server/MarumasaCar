@@ -3,15 +3,19 @@ package marumasa.marumasa_car.vehicle;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static marumasa.marumasa_car.vehicle.VehicleUtils.*;
+import static marumasa.marumasa_car.vehicle.VehicleParts.*;
 
 public class Vehicle extends BukkitRunnable {
     public float moveSpeed() {
@@ -45,9 +49,10 @@ public class Vehicle extends BukkitRunnable {
 
     private final ArmorStand body;
 
-    private final List<Entity> parts = new ArrayList<>();
+    // 乗り物に追従するエンティティリスト
+    private final List<Entity> trackingEntityList = new ArrayList<>();
 
-    public List<Part> partsList() {
+    public List<superPart> partsList() {
         return new ArrayList<>();
     }
 
@@ -66,8 +71,8 @@ public class Vehicle extends BukkitRunnable {
         location = body.getLocation();
 
         final World world = body.getWorld();
-        for (Part part : partsList()) {
-            part.create(world);
+        for (superPart superPart : partsList()) {
+            superPart.create(world, location, trackingEntityList);
         }
     }
 
@@ -76,7 +81,7 @@ public class Vehicle extends BukkitRunnable {
     public void run() {
         location = body.getLocation();
 
-        Entity mainSeat = parts.get(0);
+        Entity mainSeat = trackingEntityList.get(0);
         List<Entity> mainSeatRider = mainSeat.getPassengers().get(0).getPassengers();
 
 
@@ -99,8 +104,8 @@ public class Vehicle extends BukkitRunnable {
 
 
         final float yaw = location.getYaw();
-        for (int i = 0; i < parts.size(); i++) {
-            Entity entity = parts.get(i);
+        for (int i = 0; i < trackingEntityList.size(); i++) {
+            Entity entity = trackingEntityList.get(i);
             Map<Entity, Entity> passenger = removePassenger(entity);
             final Vector vec = partsList().get(i).vector;
             final Location loc = location.clone();
@@ -155,47 +160,5 @@ public class Vehicle extends BukkitRunnable {
 
     public void remove() {
         this.cancel();
-    }
-
-
-    public class Part {
-        public final Vector vector;
-        public final EntityType entityType;
-
-        public final boolean isSeat;
-
-        public Part(Vector vector, EntityType entityType, boolean isSeat) {
-            this.vector = vector;
-            this.entityType = entityType;
-            this.isSeat = isSeat;
-        }
-
-        public Part(Vector vector, EntityType entityType) {
-            this(vector, entityType, false);
-        }
-
-        public Part(Vector vector, boolean isSeat) {
-            this.vector = vector;
-            this.entityType = EntityType.ITEM_DISPLAY;
-            this.isSeat = isSeat;
-        }
-
-        public void create(World world) {
-
-            Entity entity = world.spawnEntity(location, entityType);
-
-            parts.add(entity);
-            if (entity instanceof ItemDisplay display) {
-                if (isSeat) {
-                    display.setTeleportDuration(2);
-                    Interaction interaction = (Interaction) world.spawnEntity(location, EntityType.INTERACTION);
-                    display.addPassenger(interaction);
-                    VehicleController.SeatList.add(interaction);
-                } else {
-                    display.setTeleportDuration(2);
-                    display.setItemStack(new ItemStack(Material.STONE));
-                }
-            }
-        }
     }
 }
