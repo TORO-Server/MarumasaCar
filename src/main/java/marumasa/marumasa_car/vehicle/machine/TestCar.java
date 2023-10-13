@@ -27,7 +27,7 @@ public class TestCar extends Vehicle {
             add(new Seat(new Vector(0.5, 0.5, 0.5)));
             add(new Seat(new Vector(0.5, 0.5, -0.5)));
             add(new Seat(new Vector(-0.5, 0.5, -0.5)));
-            add(new Body(new Vector(0, 0.5, 0), Material.DISC_FRAGMENT_5));
+            add(new Body(new Vector(0, 0.5, 0), Material.DISC_FRAGMENT_5, 1));
             add(new MainSeat(new Vector(-0.5, 0.5, 0.5)));
         }};
     }

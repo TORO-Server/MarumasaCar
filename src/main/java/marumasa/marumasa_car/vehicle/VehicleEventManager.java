@@ -13,8 +13,11 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Set;
+
+import static marumasa.marumasa_car.vehicle.VehicleController.LoadingParts;
 
 public class VehicleEventManager {
 
@@ -81,16 +84,26 @@ public class VehicleEventManager {
     }
 
     public void load(Entity entity) {
-        final Set<String> tags = entity.getScoreboardTags();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
 
-        if (VehicleUtils.isVehicleParts(tags)) {
-            entity.remove();
-            return;
-        }
+                if (LoadingParts.contains(entity)) {
+                    LoadingParts.remove(entity);
+                    return;
+                }
 
-        if (entity instanceof ArmorStand stand) {
-            load(stand, tags);
-        }
+                final Set<String> tags = entity.getScoreboardTags();
+
+                if (VehicleUtils.isVehicleParts(tags)) {
+                    entity.remove();
+                    return;
+                }
+                if (entity instanceof ArmorStand stand) {
+                    load(stand, tags);
+                }
+            }
+        }.runTaskLater(pl, 1);
     }
 
     public void unload(Entity entity) {
