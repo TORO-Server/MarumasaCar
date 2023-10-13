@@ -77,28 +77,35 @@ public class Vehicle extends BukkitRunnable {
         }
     }
 
+    // メインシートにプレイヤーが乗っていた場合、プレイヤーを return する
+    // そうでなかったら null にする
+    public Player getDriver() {
+        if (mainSeat == null) return null;
+        final List<Entity> passengers = mainSeat.getPassengers();
+        if (passengers.size() != 1) return null;
+        return passengers.get(0) instanceof Player driver ? driver : null;
+    }
 
     @Override
     public void run() {
         location = body.getLocation();
 
-        Entity mainSeat = EntityListTracking.get(0);
-        List<Entity> mainSeatRider = mainSeat.getPassengers().get(0).getPassengers();
+        final Player driver = getDriver();
+        final Vector vector = createVector();
 
+        if (driver != null) {
 
-        Vector vector = createVector();
-        if (mainSeatRider.size() == 1) {
-            final Location mainSeatRiderLoc = mainSeatRider.get(0).getLocation();
-            final float yaw = mainSeatRiderLoc.getYaw();
+            final float yaw = driver.getLocation().getYaw();
+
             body.setRotation(yaw, 0);
-            if (VehicleController.W.contains((Player) mainSeatRider.get(0))) {
+            if (VehicleController.W.contains(driver)) {
                 vector.add(new Vector(0, 0, generateSpeed(moveSpeed())).rotateAroundY(-Math.toRadians(yaw)));
-            } else if (VehicleController.S.contains((Player) mainSeatRider.get(0))) {
+            } else if (VehicleController.S.contains(driver)) {
                 vector.add(new Vector(0, 0, -generateSpeed(backSpeed())).rotateAroundY(-Math.toRadians(yaw)));
             }
-            if (VehicleController.A.contains((Player) mainSeatRider.get(0))) {
+            if (VehicleController.A.contains(driver)) {
                 vector.add(new Vector(generateSpeed(slideSpeed()), 0, 0).rotateAroundY(-Math.toRadians(yaw)));
-            } else if (VehicleController.D.contains((Player) mainSeatRider.get(0))) {
+            } else if (VehicleController.D.contains(driver)) {
                 vector.add(new Vector(-generateSpeed(slideSpeed()), 0, 0).rotateAroundY(-Math.toRadians(yaw)));
             }
         }
