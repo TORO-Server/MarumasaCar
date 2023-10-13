@@ -1,6 +1,7 @@
 package marumasa.marumasa_car;
 
 import marumasa.marumasa_car.vehicle.VehicleEventManager;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
