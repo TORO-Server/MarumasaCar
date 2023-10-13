@@ -16,6 +16,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Set;
 
 public class VehicleEventManager {
+
+
+    public void load(ArmorStand stand, Set<String> tags) {
+        if (tags.contains("marumasa.test")) {
+            new TestCar(stand, pl);
+        }
+    }
+
+
     private final JavaPlugin pl;
 
     public VehicleEventManager(JavaPlugin plugin) {
@@ -60,11 +69,9 @@ public class VehicleEventManager {
     }
 
     public void load(Entity entity) {
-        final Set<String> tags = entity.getScoreboardTags();
         if (entity instanceof ArmorStand stand) {
-            if (tags.contains("marumasa.test")) {
-                new TestCar(stand, pl);
-            }
+            final Set<String> tags = entity.getScoreboardTags();
+            load(stand, tags);
         }
     }
 
