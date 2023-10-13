@@ -200,6 +200,6 @@ public class Vehicle extends BukkitRunnable {
     }
 
     public void remove() {
-        unload();
+        body.remove();
     }
 }
