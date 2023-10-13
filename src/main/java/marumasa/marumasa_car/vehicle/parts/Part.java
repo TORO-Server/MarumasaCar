@@ -9,6 +9,9 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Interaction;
 import org.bukkit.util.Vector;
 
+import static marumasa.marumasa_car.vehicle.VehicleController.InteractionLink;
+import static marumasa.marumasa_car.vehicle.VehicleController.LoadingParts;
+
 public class Part {
     public final Vector vector;
     public final EntityType entityType;
@@ -23,8 +26,10 @@ public class Part {
         entity.addScoreboardTag("marumasa.vehicle.part");
         vehicle.EntityListAll.add(entity);
 
+        LoadingParts.add(entity);
+
         if (entity instanceof Interaction interaction)
-            VehicleController.InteractionLink.put(interaction, vehicle.body);
+           InteractionLink.put(interaction, vehicle.body);
 
         return entity;
     }
