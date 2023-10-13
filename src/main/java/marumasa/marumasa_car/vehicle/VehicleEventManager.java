@@ -7,7 +7,6 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import marumasa.marumasa_car.vehicle.machine.ExampleCar;
-import marumasa.marumasa_car.vehicle.machine.TestCar;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Interaction;
@@ -31,10 +30,7 @@ public class VehicleEventManager {
 
     public void load(ArmorStand stand, Set<String> tags) {
 
-        if (tags.contains(TestCar.tag))
-            new TestCar(stand, pl);
-
-        else if (tags.contains(ExampleCar.tag))
+        if (tags.contains(ExampleCar.tag))
             new ExampleCar(stand, pl);
 
     }
