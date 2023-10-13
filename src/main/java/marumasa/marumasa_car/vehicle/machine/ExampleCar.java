@@ -1,19 +1,17 @@
 package marumasa.marumasa_car.vehicle.machine;
 
 import marumasa.marumasa_car.vehicle.Vehicle;
-import marumasa.marumasa_car.vehicle.VehicleUtils;
 import marumasa.marumasa_car.vehicle.parts.Body;
 import marumasa.marumasa_car.vehicle.parts.MainSeat;
+import marumasa.marumasa_car.vehicle.parts.Part;
 import marumasa.marumasa_car.vehicle.parts.Seat;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import marumasa.marumasa_car.vehicle.parts.Part;
-import org.bukkit.util.Vector;
 
 public class ExampleCar extends Vehicle {
     public static final String tag = "marumasa.example";

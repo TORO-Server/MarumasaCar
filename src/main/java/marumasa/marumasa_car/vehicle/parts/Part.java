@@ -1,7 +1,6 @@
 package marumasa.marumasa_car.vehicle.parts;
 
 import marumasa.marumasa_car.vehicle.Vehicle;
-import marumasa.marumasa_car.vehicle.VehicleController;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
