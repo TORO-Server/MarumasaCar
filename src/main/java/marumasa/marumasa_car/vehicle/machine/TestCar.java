@@ -24,11 +24,11 @@ public class TestCar extends Vehicle {
     @Override
     public List<Part> partsList() {
         return new ArrayList<>() {{
-            add(new Seat(new Vector(0.5, 0.5, 0.5)));
-            add(new Seat(new Vector(0.5, 0.5, -0.5)));
-            add(new Seat(new Vector(-0.5, 0.5, -0.5)));
+            add(new Seat(new Vector(0.4, 0.5, 0.5), 0.7f, 0.5f));
+            add(new Seat(new Vector(0.4, 0.5, -0.5), 0.7f, 0.5f));
+            add(new Seat(new Vector(-0.4, 0.5, -0.5), 0.7f, 0.5f));
+            add(new MainSeat(new Vector(-0.4, 0.5, 0.5), 0.7f, 0.5f));
             add(new Body(new Vector(0, 0.5, 0), Material.DISC_FRAGMENT_5, 1));
-            add(new MainSeat(new Vector(-0.5, 0.5, 0.5)));
         }};
     }
 
