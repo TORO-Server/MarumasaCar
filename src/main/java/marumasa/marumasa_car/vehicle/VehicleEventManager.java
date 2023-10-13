@@ -18,6 +18,13 @@ import java.util.Set;
 
 public class VehicleEventManager {
 
+    public void onUse(Entity entity, Player player) {
+        if (player.isSneaking())
+            remove(entity);
+        else
+            ride(entity, player);
+    }
+
 
     public void load(ArmorStand stand, Set<String> tags) {
         if (tags.contains("marumasa.test")) {
@@ -88,6 +95,13 @@ public class VehicleEventManager {
         if (entity instanceof ArmorStand stand) {
             Vehicle vehicle = VehicleController.VehicleLink.get(stand);
             if (vehicle != null) vehicle.unload();
+        }
+    }
+
+    public void remove(Entity entity) {
+        if (entity instanceof ArmorStand stand) {
+            Vehicle vehicle = VehicleController.VehicleLink.get(stand);
+            if (vehicle != null) vehicle.remove();
         }
     }
 

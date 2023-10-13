@@ -33,7 +33,7 @@ public class Events implements Listener {
 
     @EventHandler
     private void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
-        eventManager.ride(event.getRightClicked(), event.getPlayer());
+        eventManager.onUse(event.getRightClicked(), event.getPlayer());
     }
 
     @EventHandler
