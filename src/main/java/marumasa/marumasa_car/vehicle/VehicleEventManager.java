@@ -92,16 +92,21 @@ public class VehicleEventManager {
     }
 
     public void unload(Entity entity) {
-        if (entity instanceof ArmorStand stand) {
-            Vehicle vehicle = VehicleController.VehicleLink.get(stand);
-            if (vehicle != null) vehicle.unload();
-        }
+        if (entity instanceof ArmorStand stand) unload(stand);
+    }
+
+    public boolean unload(ArmorStand stand) {
+        Vehicle vehicle = VehicleController.VehicleLink.get(stand);
+        if (vehicle == null) return false;
+        vehicle.unload();
+        return true;
     }
 
     public void remove(Entity entity) {
-        if (entity instanceof ArmorStand stand) {
-            Vehicle vehicle = VehicleController.VehicleLink.get(stand);
-            if (vehicle != null) vehicle.remove();
+        if (entity instanceof Interaction interaction) {
+            ArmorStand body = VehicleController.InteractionLink.get(interaction);
+            if (!unload(body)) return;
+            body.remove();
         }
     }
 
