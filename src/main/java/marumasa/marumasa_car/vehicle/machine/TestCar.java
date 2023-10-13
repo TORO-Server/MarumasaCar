@@ -1,5 +1,6 @@
-package marumasa.marumasa_car.vehicle;
+package marumasa.marumasa_car.vehicle.machine;
 
+import marumasa.marumasa_car.vehicle.Vehicle;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
 import org.bukkit.plugin.java.JavaPlugin;
