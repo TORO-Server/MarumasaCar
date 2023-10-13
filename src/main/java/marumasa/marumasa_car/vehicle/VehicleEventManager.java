@@ -27,11 +27,13 @@ public class VehicleEventManager {
 
 
     public void load(ArmorStand stand, Set<String> tags) {
-        if (tags.contains("marumasa.test")) {
+
+        if (tags.contains(TestCar.tag))
             new TestCar(stand, pl);
-        } else if (tags.contains("marumasa.example")) {
+
+        else if (tags.contains(ExampleCar.tag))
             new ExampleCar(stand, pl);
-        }
+
     }
 
 
@@ -95,18 +97,19 @@ public class VehicleEventManager {
         if (entity instanceof ArmorStand stand) unload(stand);
     }
 
-    public boolean unload(ArmorStand stand) {
+    public Vehicle unload(ArmorStand stand) {
         Vehicle vehicle = VehicleController.VehicleLink.get(stand);
-        if (vehicle == null) return false;
+        if (vehicle == null) return null;
         vehicle.unload();
-        return true;
+        return vehicle;
     }
 
     public void remove(Entity entity) {
         if (entity instanceof Interaction interaction) {
             ArmorStand body = VehicleController.InteractionLink.get(interaction);
-            if (!unload(body)) return;
-            body.remove();
+            final Vehicle vehicle = unload(body);
+            if (vehicle == null) return;
+            vehicle.remove();
         }
     }
 
