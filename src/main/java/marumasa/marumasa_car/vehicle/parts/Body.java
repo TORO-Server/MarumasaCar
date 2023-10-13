@@ -4,38 +4,61 @@ import marumasa.marumasa_car.vehicle.Vehicle;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.entity.Display;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Transformation;
 import org.bukkit.util.Vector;
+import org.joml.Vector3f;
 
 public class Body extends TrackingDisplay {
     public final Material material;
 
-    public final Integer CustomModelData;
+    // null の場合もある
+    public final Integer customModelData;
 
-    public Body(Vector vector, Material material) {
-        super(vector, EntityType.ITEM_DISPLAY);
-        this.material = material;
-        this.CustomModelData = null;
+    public final Vector3f translation;
+    public final Vector3f scale;
+
+    public Body(Vector vector, Material material, Integer customModelData) {
+        this(vector, material, new Vector3f(0), new Vector3f(1), customModelData);
     }
 
-    public Body(Vector vector, Material material, int CustomModelData) {
+    public Body(Vector vector, Material material, Vector3f translation, Vector3f scale, Integer customModelData) {
         super(vector, EntityType.ITEM_DISPLAY);
         this.material = material;
-        this.CustomModelData = CustomModelData;
+
+        this.translation = translation;
+        this.scale = scale;
+
+        this.customModelData = customModelData;
+    }
+
+    public Transformation generateTransformation(Display display) {
+        final Transformation tra = display.getTransformation();
+        return new Transformation(
+                translation,
+                tra.getLeftRotation(),
+                scale,
+                tra.getRightRotation()
+        );
     }
 
     @Override
     public ItemDisplay create(World world, Location location, Vehicle vehicle) {
         final ItemDisplay itemDisplay = (ItemDisplay) super.create(world, location, vehicle);
 
+        itemDisplay.setTransformation(
+                generateTransformation(itemDisplay)
+        );
+
         final ItemStack itemStack = new ItemStack(material);
         final ItemMeta itemMeta = itemStack.getItemMeta();
 
         if (itemMeta != null) {
-            itemMeta.setCustomModelData(CustomModelData);
+            itemMeta.setCustomModelData(customModelData);
             itemStack.setItemMeta(itemMeta);
         }
 
