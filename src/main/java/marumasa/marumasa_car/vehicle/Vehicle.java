@@ -50,7 +50,9 @@ public class Vehicle extends BukkitRunnable {
     private final ArmorStand body;
 
     // 乗り物に追従するエンティティリスト
-    private final List<Entity> trackingEntityList = new ArrayList<>();
+    public final List<Entity> EntityListTracking = new ArrayList<>();
+    // すべてのエンティティリスト
+    public final List<Entity> EntityListAll = new ArrayList<>();
 
     public List<Part> partsList() {
         return new ArrayList<>();
@@ -72,7 +74,7 @@ public class Vehicle extends BukkitRunnable {
 
         final World world = body.getWorld();
         for (Part part : partsList()) {
-            part.create(world, location, trackingEntityList);
+            part.create(world, location, this);
         }
     }
 
@@ -81,7 +83,7 @@ public class Vehicle extends BukkitRunnable {
     public void run() {
         location = body.getLocation();
 
-        Entity mainSeat = trackingEntityList.get(0);
+        Entity mainSeat = EntityListTracking.get(0);
         List<Entity> mainSeatRider = mainSeat.getPassengers().get(0).getPassengers();
 
 
@@ -104,8 +106,8 @@ public class Vehicle extends BukkitRunnable {
 
 
         final float yaw = location.getYaw();
-        for (int i = 0; i < trackingEntityList.size(); i++) {
-            Entity entity = trackingEntityList.get(i);
+        for (int i = 0; i < EntityListTracking.size(); i++) {
+            Entity entity = EntityListTracking.get(i);
             Map<Entity, Entity> passenger = removePassenger(entity);
             final Vector vec = partsList().get(i).vector;
             final Location loc = location.clone();

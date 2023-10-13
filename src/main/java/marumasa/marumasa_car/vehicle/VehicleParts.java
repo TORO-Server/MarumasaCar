@@ -10,48 +10,76 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.util.List;
-
 public class VehicleParts {
+    public static class SeatPart extends TrackingPart {
+        public SeatPart(Vector vector) {
+            super(vector, EntityType.ITEM_DISPLAY);
+        }
+
+        @Override
+        public Entity create(World world, Location location, Vehicle vehicle) {
+            final ItemDisplay itemDisplay = (ItemDisplay) super.create(world, location, vehicle);
+
+            itemDisplay.setTeleportDuration(2);
+
+            Interaction interaction = (Interaction) new Part(
+                    vector,
+                    EntityType.INTERACTION
+            ).create(world, location, vehicle);
+
+            itemDisplay.addPassenger(interaction);
+            VehicleController.SeatList.add(interaction);
+
+            return itemDisplay;
+        }
+    }
+
+    public static class BodyPart extends TrackingPart {
+        public final Material material;
+
+        public BodyPart(Vector vector, Material material) {
+            super(vector, EntityType.ITEM_DISPLAY);
+            this.material = material;
+        }
+
+        @Override
+        public Entity create(World world, Location location, Vehicle vehicle) {
+            final ItemDisplay itemDisplay = (ItemDisplay) super.create(world, location, vehicle);
+
+            ItemStack itemStack = new ItemStack(material);
+
+            itemDisplay.setItemStack(itemStack);
+
+            return itemDisplay;
+        }
+    }
+
+    public static class TrackingPart extends Part {
+        public TrackingPart(Vector vector, EntityType entityType) {
+            super(vector, entityType);
+        }
+
+        @Override
+        public Entity create(World world, Location location, Vehicle vehicle) {
+            final Entity entity = super.create(world, location, vehicle);
+            vehicle.EntityListTracking.add(entity);
+            return entity;
+        }
+    }
+
     public static class Part {
         public final Vector vector;
         public final EntityType entityType;
 
-        public final boolean isSeat;
-
-        public Part(Vector vector, EntityType entityType, boolean isSeat) {
+        public Part(Vector vector, EntityType entityType) {
             this.vector = vector;
             this.entityType = entityType;
-            this.isSeat = isSeat;
         }
 
-        public Part(Vector vector, EntityType entityType) {
-            this(vector, entityType, false);
-        }
-
-        public Part(Vector vector, boolean isSeat) {
-            this.vector = vector;
-            this.entityType = EntityType.ITEM_DISPLAY;
-            this.isSeat = isSeat;
-        }
-
-        public void create(World world, Location location, List<Entity> trackingEntities) {
-
-            Entity entity = world.spawnEntity(location, entityType);
-
-            trackingEntities.add(entity);
-
-            if (entity instanceof ItemDisplay display) {
-                if (isSeat) {
-                    display.setTeleportDuration(2);
-                    Interaction interaction = (Interaction) world.spawnEntity(location, EntityType.INTERACTION);
-                    display.addPassenger(interaction);
-                    VehicleController.SeatList.add(interaction);
-                } else {
-                    display.setTeleportDuration(2);
-                    display.setItemStack(new ItemStack(Material.STONE));
-                }
-            }
+        public Entity create(World world, Location location, Vehicle vehicle) {
+            final Entity entity = world.spawnEntity(location, entityType);
+            vehicle.EntityListAll.add(entity);
+            return entity;
         }
     }
 }
