@@ -22,6 +22,12 @@ public class Vehicle extends BukkitRunnable {
     public static Set<Player> D = new HashSet<>();
     public static Set<Player> Jump = new HashSet<>();
 
+    public static void createVehicle(ArmorStand stand, JavaPlugin pl) {
+        final Vehicle vehicle = new Vehicle(stand);
+        vehicle.runTaskTimer(pl, 0, 0);
+        VehicleController.VehicleLink.put(stand, vehicle);
+    }
+
 
     public float moveSpeed() {
         return 0.4f;
@@ -44,7 +50,7 @@ public class Vehicle extends BukkitRunnable {
     }
 
     private double generateSpeed(float speed) {
-        Location loc = body.getLocation().add(0, -0.1, 0);
+        Location loc = location.clone().add(0, -0.1, 0);
         if (isSolid(loc)) {
             return inWater() ? speed / waterSubSpeed() : speed;
         } else {
@@ -60,72 +66,32 @@ public class Vehicle extends BukkitRunnable {
         return new ArrayList<>();
     }
 
-    public static void createVehicle(ArmorStand stand, JavaPlugin pl) {
-        final Vehicle vehicle = new Vehicle(stand);
-        vehicle.runTaskTimer(pl, 0, 0);
-        VehicleController.VehicleLink.put(stand, vehicle);
-    }
+    private Location location;
+
 
     protected Vehicle(ArmorStand stand) {
         body = stand;
         body.setInvisible(true);
         body.setSmall(true);
 
+        location = body.getLocation();
 
         final World world = body.getWorld();
-        final Location location = body.getLocation();
-
-
         for (Part part : partsList()) {
-            Entity entity = world.spawnEntity(location, part.entityType);
-
-            parts.add(entity);
-            if (entity instanceof ItemDisplay display) {
-                if (part.isSeat) {
-                    display.setTeleportDuration(2);
-                    Interaction interaction = (Interaction) world.spawnEntity(location, EntityType.INTERACTION);
-                    display.addPassenger(interaction);
-                    SeatList.add(interaction);
-                } else {
-                    display.setTeleportDuration(2);
-                    display.setItemStack(new ItemStack(Material.STONE));
-                }
-            }
+            part.create(world);
         }
     }
 
-
-    public static class Part {
-        public final Vector vector;
-        public final EntityType entityType;
-
-        public final boolean isSeat;
-
-        public Part(Vector vector, EntityType entityType, boolean isSeat) {
-            this.vector = vector;
-            this.entityType = entityType;
-            this.isSeat = isSeat;
-        }
-
-        public Part(Vector vector, EntityType entityType) {
-            this(vector, entityType, false);
-        }
-
-        public Part(Vector vector, boolean isSeat) {
-            this.vector = vector;
-            this.entityType = EntityType.ITEM_DISPLAY;
-            this.isSeat = isSeat;
-        }
-    }
 
     @Override
     public void run() {
-        final Location location = body.getLocation();
+        location = body.getLocation();
+
         Entity mainSeat = parts.get(0);
         List<Entity> mainSeatRider = mainSeat.getPassengers().get(0).getPassengers();
 
 
-        Vector vector = createVector(location);
+        Vector vector = createVector();
         if (mainSeatRider.size() == 1) {
             final Location mainSeatRiderLoc = mainSeatRider.get(0).getLocation();
             final float yaw = mainSeatRiderLoc.getYaw();
@@ -176,42 +142,43 @@ public class Vehicle extends BukkitRunnable {
         return loc.getBlock().getType().isSolid();
     }
 
-    private boolean inWater() {
-        return body.getLocation().getBlock().getType().equals(Material.WATER);
-    }
-
     private static boolean isOccluding(Location loc) {
         return loc.getBlock().getType().isOccluding();
     }
 
-    private static boolean tryStep(double x, double z, Location loc) {
-        boolean isOnFullBlock = loc.getY() % 1 == 0;
-        if (isOnFullBlock)
-            return isSolid(loc.clone().add(x, 0.9, z)) && !isSolid(loc.clone().add(x, 1, z));
-        else
-            return isOccluding(loc.clone().add(x, 0, z)) && !isSolid(loc.clone().add(x, 0.9, z));
+    private boolean inWater() {
+        return location.getBlock().getType().equals(Material.WATER);
     }
 
-    private Vector createVector(Location location) {
+
+    private boolean tryStep(double x, double z) {
+        boolean isOnFullBlock = location.getY() % 1 == 0;
+        if (isOnFullBlock)
+            return isSolid(location.clone().add(x, 0.9, z)) && !isSolid(location.clone().add(x, 1, z));
+        else
+            return isOccluding(location.clone().add(x, 0, z)) && !isSolid(location.clone().add(x, 0.9, z));
+    }
+
+    private Vector createVector() {
         Location locationClone = location.clone();
 
         boolean isChange = false;
 
         float checkStep = 0.15f;
 
-        if (tryStep(checkStep, 0, location)) {
+        if (tryStep(checkStep, 0)) {
             locationClone.add(checkStep, 0, 0);
             isChange = true;
         }
-        if (tryStep(-checkStep, 0, location)) {
+        if (tryStep(-checkStep, 0)) {
             locationClone.add(-checkStep, 0, 0);
             isChange = true;
         }
-        if (tryStep(0, checkStep, location)) {
+        if (tryStep(0, checkStep)) {
             locationClone.add(0, 0, checkStep);
             isChange = true;
         }
-        if (tryStep(0, -checkStep, location)) {
+        if (tryStep(0, -checkStep)) {
             locationClone.add(0, 0, -checkStep);
             isChange = true;
         }
@@ -223,5 +190,47 @@ public class Vehicle extends BukkitRunnable {
 
     public void remove() {
         this.cancel();
+    }
+
+
+    public class Part {
+        public final Vector vector;
+        public final EntityType entityType;
+
+        public final boolean isSeat;
+
+        public Part(Vector vector, EntityType entityType, boolean isSeat) {
+            this.vector = vector;
+            this.entityType = entityType;
+            this.isSeat = isSeat;
+        }
+
+        public Part(Vector vector, EntityType entityType) {
+            this(vector, entityType, false);
+        }
+
+        public Part(Vector vector, boolean isSeat) {
+            this.vector = vector;
+            this.entityType = EntityType.ITEM_DISPLAY;
+            this.isSeat = isSeat;
+        }
+
+        public void create(World world) {
+
+            Entity entity = world.spawnEntity(location, entityType);
+
+            parts.add(entity);
+            if (entity instanceof ItemDisplay display) {
+                if (isSeat) {
+                    display.setTeleportDuration(2);
+                    Interaction interaction = (Interaction) world.spawnEntity(location, EntityType.INTERACTION);
+                    display.addPassenger(interaction);
+                    SeatList.add(interaction);
+                } else {
+                    display.setTeleportDuration(2);
+                    display.setItemStack(new ItemStack(Material.STONE));
+                }
+            }
+        }
     }
 }
