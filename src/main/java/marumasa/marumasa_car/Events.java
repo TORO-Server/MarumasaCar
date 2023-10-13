@@ -6,7 +6,7 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import marumasa.marumasa_car.vehicle.TestCar;
+import marumasa.marumasa_car.vehicle.machine.TestCar;
 import marumasa.marumasa_car.vehicle.Vehicle;
 import marumasa.marumasa_car.vehicle.VehicleController;
 import org.bukkit.entity.*;
