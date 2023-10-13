@@ -17,13 +17,13 @@ public class TestCar extends Vehicle {
     }
 
     @Override
-    public List<superPart> partsList() {
+    public List<Part> partsList() {
         return new ArrayList<>() {{
-            add(new superPart(new Vector(0.5, 0.5, 0.5), true));
-            add(new superPart(new Vector(0.5, 0.5, -0.5), true));
-            add(new superPart(new Vector(-0.5, 0.5, -0.5), true));
-            add(new superPart(new Vector(-0.5, 0.5, 0.5), true));
-            add(new superPart(new Vector(0, 0.5, 0), false));
+            add(new Part(new Vector(0.5, 0.5, 0.5), true));
+            add(new Part(new Vector(0.5, 0.5, -0.5), true));
+            add(new Part(new Vector(-0.5, 0.5, -0.5), true));
+            add(new Part(new Vector(-0.5, 0.5, 0.5), true));
+            add(new Part(new Vector(0, 0.5, 0), false));
         }};
     }
 

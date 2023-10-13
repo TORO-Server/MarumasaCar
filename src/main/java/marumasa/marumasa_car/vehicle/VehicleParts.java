@@ -13,23 +13,23 @@ import org.bukkit.util.Vector;
 import java.util.List;
 
 public class VehicleParts {
-    public static class superPart {
+    public static class Part {
         public final Vector vector;
         public final EntityType entityType;
 
         public final boolean isSeat;
 
-        public superPart(Vector vector, EntityType entityType, boolean isSeat) {
+        public Part(Vector vector, EntityType entityType, boolean isSeat) {
             this.vector = vector;
             this.entityType = entityType;
             this.isSeat = isSeat;
         }
 
-        public superPart(Vector vector, EntityType entityType) {
+        public Part(Vector vector, EntityType entityType) {
             this(vector, entityType, false);
         }
 
-        public superPart(Vector vector, boolean isSeat) {
+        public Part(Vector vector, boolean isSeat) {
             this.vector = vector;
             this.entityType = EntityType.ITEM_DISPLAY;
             this.isSeat = isSeat;

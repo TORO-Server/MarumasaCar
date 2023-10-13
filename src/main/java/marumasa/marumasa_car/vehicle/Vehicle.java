@@ -52,7 +52,7 @@ public class Vehicle extends BukkitRunnable {
     // 乗り物に追従するエンティティリスト
     private final List<Entity> trackingEntityList = new ArrayList<>();
 
-    public List<superPart> partsList() {
+    public List<Part> partsList() {
         return new ArrayList<>();
     }
 
@@ -71,8 +71,8 @@ public class Vehicle extends BukkitRunnable {
         location = body.getLocation();
 
         final World world = body.getWorld();
-        for (superPart superPart : partsList()) {
-            superPart.create(world, location, trackingEntityList);
+        for (Part part : partsList()) {
+            part.create(world, location, trackingEntityList);
         }
     }
 
