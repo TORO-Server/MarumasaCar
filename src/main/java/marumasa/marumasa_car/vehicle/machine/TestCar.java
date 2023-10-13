@@ -1,6 +1,10 @@
 package marumasa.marumasa_car.vehicle.machine;
 
+import marumasa.marumasa_car.vehicle.parts.MainSeatPart;
+import marumasa.marumasa_car.vehicle.parts.Part;
+import marumasa.marumasa_car.vehicle.parts.SeatPart;
 import marumasa.marumasa_car.vehicle.Vehicle;
+import marumasa.marumasa_car.vehicle.parts.BodyPart;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -8,8 +12,6 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static marumasa.marumasa_car.vehicle.VehicleParts.*;
 
 public class TestCar extends Vehicle {
 
@@ -23,8 +25,8 @@ public class TestCar extends Vehicle {
             add(new SeatPart(new Vector(0.5, 0.5, 0.5)));
             add(new SeatPart(new Vector(0.5, 0.5, -0.5)));
             add(new SeatPart(new Vector(-0.5, 0.5, -0.5)));
-            add(new SeatPart(new Vector(-0.5, 0.5, 0.5)));
             add(new BodyPart(new Vector(0, 0.5, 0), Material.DISC_FRAGMENT_5));
+            add(new MainSeatPart(new Vector(-0.5, 0.5, 0.5)));
         }};
     }
 

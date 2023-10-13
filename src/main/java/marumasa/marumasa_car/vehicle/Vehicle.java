@@ -1,11 +1,10 @@
 package marumasa.marumasa_car.vehicle;
 
+import marumasa.marumasa_car.vehicle.parts.Part;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import static marumasa.marumasa_car.vehicle.VehicleUtils.*;
-import static marumasa.marumasa_car.vehicle.VehicleParts.*;
 
 public class Vehicle extends BukkitRunnable {
     public float moveSpeed() {
@@ -47,7 +45,8 @@ public class Vehicle extends BukkitRunnable {
         }
     }
 
-    private final ArmorStand body;
+    public final ArmorStand body;
+    public Interaction mainSeat;
 
     // 乗り物に追従するエンティティリスト
     public final List<Entity> EntityListTracking = new ArrayList<>();

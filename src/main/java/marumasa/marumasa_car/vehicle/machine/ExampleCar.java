@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
-import static marumasa.marumasa_car.vehicle.VehicleParts.Part;
+import marumasa.marumasa_car.vehicle.parts.Part;
 
 public class ExampleCar extends Vehicle {
 
