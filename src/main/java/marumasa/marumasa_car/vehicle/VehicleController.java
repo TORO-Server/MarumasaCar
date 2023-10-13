@@ -1,6 +1,5 @@
 package marumasa.marumasa_car.vehicle;
 
-import marumasa.marumasa_car.vehicle.Vehicle;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Interaction;
 import org.bukkit.entity.Player;
