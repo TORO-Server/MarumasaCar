@@ -1,10 +1,12 @@
 package marumasa.marumasa_car.vehicle.parts;
 
 import marumasa.marumasa_car.vehicle.Vehicle;
+import marumasa.marumasa_car.vehicle.VehicleController;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Interaction;
 import org.bukkit.util.Vector;
 
 public class Part {
@@ -20,6 +22,10 @@ public class Part {
         final Entity entity = world.spawnEntity(location, entityType);
         entity.addScoreboardTag("marumasa.vehicle.part");
         vehicle.EntityListAll.add(entity);
+
+        if (entity instanceof Interaction interaction)
+            VehicleController.InteractionLink.put(interaction, vehicle.body);
+
         return entity;
     }
 }
