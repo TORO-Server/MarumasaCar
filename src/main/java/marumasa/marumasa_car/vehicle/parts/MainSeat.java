@@ -7,8 +7,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.util.Vector;
 
-public class MainSeatPart extends SeatPart {
-    public MainSeatPart(Vector vector) {
+public class MainSeat extends Seat {
+    public MainSeat(Vector vector) {
         super(vector);
     }
 

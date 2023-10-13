@@ -1,30 +1,36 @@
 package marumasa.marumasa_car.vehicle.parts;
 
 import marumasa.marumasa_car.vehicle.Vehicle;
+import marumasa.marumasa_car.vehicle.VehicleController;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Interaction;
 import org.bukkit.entity.ItemDisplay;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-public class BodyPart extends TrackingPart {
-    public final Material material;
+public class Seat extends Tracking {
 
-    public BodyPart(Vector vector, Material material) {
+    public Interaction seat;
+
+    public Seat(Vector vector) {
         super(vector, EntityType.ITEM_DISPLAY);
-        this.material = material;
     }
 
     @Override
     public Entity create(World world, Location location, Vehicle vehicle) {
         final ItemDisplay itemDisplay = (ItemDisplay) super.create(world, location, vehicle);
 
-        ItemStack itemStack = new ItemStack(material);
+        itemDisplay.setTeleportDuration(2);
 
-        itemDisplay.setItemStack(itemStack);
+        seat = (Interaction) new Part(
+                vector,
+                EntityType.INTERACTION
+        ).create(world, location, vehicle);
+
+        itemDisplay.addPassenger(seat);
+        VehicleController.SeatList.add(seat);
 
         return itemDisplay;
     }

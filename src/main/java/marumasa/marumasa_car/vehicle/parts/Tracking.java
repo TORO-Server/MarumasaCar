@@ -7,8 +7,8 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.util.Vector;
 
-public class TrackingPart extends Part {
-    public TrackingPart(Vector vector, EntityType entityType) {
+public class Tracking extends Part {
+    public Tracking(Vector vector, EntityType entityType) {
         super(vector, entityType);
     }
 
