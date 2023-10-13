@@ -16,7 +16,7 @@ import java.util.Map;
 import static marumasa.marumasa_car.vehicle.VehicleUtils.*;
 
 public class Vehicle extends BukkitRunnable {
-    public float moveSpeed() {
+    public float frontSpeed() {
         return 0.4f;
     }
 
@@ -36,12 +36,28 @@ public class Vehicle extends BukkitRunnable {
         return 3f;
     }
 
+    public float jumpPower() {
+        return 0.5f;
+    }
+    public float waterSubJump() {
+        return 6f;
+    }
+
     private double generateSpeed(float speed) {
         Location loc = location.clone().add(0, -0.1, 0);
         if (isSolid(loc)) {
             return inWater() ? speed / waterSubSpeed() : speed;
         } else {
             return speed / fallingSubSpeed();
+        }
+    }
+
+    private double generateJump() {
+        Location loc = location.clone().add(0, -0.1, 0);
+        if (isSolid(loc)) {
+            return jumpPower();
+        }else {
+            return inWater() ? jumpPower() / waterSubJump() : 0;
         }
     }
 
@@ -58,6 +74,7 @@ public class Vehicle extends BukkitRunnable {
     }
 
     private Location location;
+    private Vector vector;
 
 
     public Vehicle(ArmorStand stand, JavaPlugin pl) {
@@ -86,27 +103,38 @@ public class Vehicle extends BukkitRunnable {
         return passengers.get(0) instanceof Player driver ? driver : null;
     }
 
+    public void addVector(double x, double y, double z, float yaw) {
+        vector.add(new Vector(x, y, z).rotateAroundY(-Math.toRadians(yaw)));
+    }
+
     @Override
     public void run() {
         location = body.getLocation();
+        vector = body.getVelocity();
+
+        // 自動で1ブロックの段差を登れるようにする
+        autoStep();
 
         final Player driver = getDriver();
-        final Vector vector = createVector();
 
         if (driver != null) {
-
             final float yaw = driver.getLocation().getYaw();
-
             body.setRotation(yaw, 0);
+
             if (VehicleController.W.contains(driver)) {
-                vector.add(new Vector(0, 0, generateSpeed(moveSpeed())).rotateAroundY(-Math.toRadians(yaw)));
+                addVector(0, 0, generateSpeed(frontSpeed()), yaw);
             } else if (VehicleController.S.contains(driver)) {
-                vector.add(new Vector(0, 0, -generateSpeed(backSpeed())).rotateAroundY(-Math.toRadians(yaw)));
+                addVector(0, 0, -generateSpeed(backSpeed()), yaw);
             }
+
             if (VehicleController.A.contains(driver)) {
-                vector.add(new Vector(generateSpeed(slideSpeed()), 0, 0).rotateAroundY(-Math.toRadians(yaw)));
+                addVector(generateSpeed(slideSpeed()), 0, 0, yaw);
             } else if (VehicleController.D.contains(driver)) {
-                vector.add(new Vector(-generateSpeed(slideSpeed()), 0, 0).rotateAroundY(-Math.toRadians(yaw)));
+                addVector(-generateSpeed(slideSpeed()), 0, 0, yaw);
+            }
+
+            if (VehicleController.Jump.contains(driver)) {
+                addVector(0, generateJump(), 0, yaw);
             }
         }
 
@@ -137,7 +165,7 @@ public class Vehicle extends BukkitRunnable {
             return isOccluding(location.clone().add(x, 0, z)) && !isSolid(location.clone().add(x, 0.9, z));
     }
 
-    private Vector createVector() {
+    private void autoStep() {
         Location locationClone = location.clone();
 
         boolean isChange = false;
@@ -163,7 +191,6 @@ public class Vehicle extends BukkitRunnable {
         if (isChange) {
             body.teleport(locationClone.add(0, 1, 0));
         }
-        return body.getVelocity();
     }
 
     public void remove() {
