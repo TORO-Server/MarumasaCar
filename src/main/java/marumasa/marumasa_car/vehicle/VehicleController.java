@@ -12,6 +12,7 @@ import java.util.Set;
 public class VehicleController {
     public static final Set<Interaction> SeatList = new HashSet<>();
     public static Map<ArmorStand, Vehicle> VehicleLink = new HashMap<>();
+    public static Map<Interaction, ArmorStand> InteractionLink = new HashMap<>();
     public static Set<Player> W = new HashSet<>();
     public static Set<Player> A = new HashSet<>();
     public static Set<Player> S = new HashSet<>();
