@@ -97,9 +97,9 @@ public class Vehicle extends BukkitRunnable {
         List<Part> parts = generateParts();
 
         final World world = body.getWorld();
-        for (Part part : parts) {
-            partsMap.put(part.create(world, location, this), part);
-        }
+
+        for (Part part : parts) partsMap.put(part.create(world, location, this), part);
+
     }
 
     // メインシートにプレイヤーが乗っていた場合、プレイヤーを return する
@@ -146,11 +146,9 @@ public class Vehicle extends BukkitRunnable {
             }
         }
 
-
         final float yaw = location.getYaw();
 
-        for (Entity entity : partsMap.keySet())
-            partsMap.get(entity).tick(location, yaw, entity);
+        for (Entity entity : partsMap.keySet()) partsMap.get(entity).tick(location, yaw, entity);
 
         body.setVelocity(vector);
     }
