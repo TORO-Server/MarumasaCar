@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -73,18 +74,14 @@ public class Vehicle extends BukkitRunnable {
     // すべてのエンティティリスト
     public final List<Entity> EntityListAll = new ArrayList<>();
 
-    public List<Part> partsList() {
+    private final Map<Entity, Part> partsMap = new HashMap<>();
+
+    public List<Part> generateParts() {
         return new ArrayList<>();
     }
 
     private Location location;
     private Vector vector;
-
-
-    /*public void dropVehicleItem(String tag) {
-
-    }*/
-
 
     public Vehicle(ArmorStand stand, JavaPlugin pl) {
 
@@ -97,9 +94,11 @@ public class Vehicle extends BukkitRunnable {
 
         location = body.getLocation();
 
+        List<Part> parts = generateParts();
+
         final World world = body.getWorld();
-        for (Part part : partsList()) {
-            part.create(world, location, this);
+        for (Part part : parts) {
+            partsMap.put(part.create(world, location, this), part);
         }
     }
 
@@ -149,15 +148,10 @@ public class Vehicle extends BukkitRunnable {
 
 
         final float yaw = location.getYaw();
-        for (int i = 0; i < EntityListTracking.size(); i++) {
-            Entity entity = EntityListTracking.get(i);
-            Map<Entity, Entity> passenger = removePassenger(entity);
-            final Vector vec = partsList().get(i).vector;
-            final Location loc = location.clone();
-            loc.add(vec.clone().rotateAroundY(-Math.toRadians(yaw)));
-            entity.teleport(loc);
-            addPassenger(passenger);
-        }
+
+        for (Entity entity : partsMap.keySet())
+            partsMap.get(entity).tick(location, yaw, entity);
+
         body.setVelocity(vector);
     }
 

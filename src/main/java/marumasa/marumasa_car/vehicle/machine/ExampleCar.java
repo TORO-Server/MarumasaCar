@@ -22,7 +22,7 @@ public class ExampleCar extends Vehicle {
     }
 
     @Override
-    public List<Part> partsList() {
+    public List<Part> generateParts() {
         return new ArrayList<>() {{
             add(new MainSeat(new Vector(0.48, 0.5, 0.45), 0.8f, 1));
             add(new Seat(new Vector(0.48, 0.5, -0.7), 0.8f, 1));

@@ -8,8 +8,12 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Interaction;
 import org.bukkit.util.Vector;
 
+import java.util.Map;
+
 import static marumasa.marumasa_car.vehicle.VehicleController.InteractionLink;
 import static marumasa.marumasa_car.vehicle.VehicleController.LoadingParts;
+import static marumasa.marumasa_car.vehicle.VehicleUtils.addPassenger;
+import static marumasa.marumasa_car.vehicle.VehicleUtils.removePassenger;
 
 public class Part {
     public final Vector vector;
@@ -31,5 +35,8 @@ public class Part {
             InteractionLink.put(interaction, vehicle.body);
 
         return entity;
+    }
+
+    public void tick(Location location, float yaw, Entity entity) {
     }
 }
