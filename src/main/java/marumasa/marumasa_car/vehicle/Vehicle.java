@@ -17,7 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static marumasa.marumasa_car.vehicle.VehicleUtils.*;
+import static marumasa.marumasa_car.vehicle.VehicleUtils.isOccluding;
+import static marumasa.marumasa_car.vehicle.VehicleUtils.isSolid;
 
 public class Vehicle extends BukkitRunnable {
     public float frontSpeed() {
