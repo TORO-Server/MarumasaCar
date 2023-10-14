@@ -1,6 +1,5 @@
-package marumasa.marumasa_car.vehicle.machine;
+package marumasa.marumasa_car.vehicle;
 
-import marumasa.marumasa_car.vehicle.Vehicle;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,7 +16,7 @@ public class Machine {
         MachineTag.put(tag, vehicle);
     }
 
-    public static void tryLoad(Set<String> tags, ArmorStand stand, JavaPlugin pl) {
+    protected static void tryLoad(Set<String> tags, ArmorStand stand, JavaPlugin pl) {
         for (String tag : tags) {
             BiFunction<ArmorStand, JavaPlugin, Vehicle> vehicle = MachineTag.get(tag);
             if (vehicle == null) continue;

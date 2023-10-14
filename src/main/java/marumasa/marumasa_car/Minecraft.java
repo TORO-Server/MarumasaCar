@@ -1,7 +1,7 @@
 package marumasa.marumasa_car;
 
 import marumasa.marumasa_car.vehicle.machine.ExampleCar;
-import marumasa.marumasa_car.vehicle.machine.Machine;
+import marumasa.marumasa_car.vehicle.Machine;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 
