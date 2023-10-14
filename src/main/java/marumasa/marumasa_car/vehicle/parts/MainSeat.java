@@ -8,9 +8,6 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.util.Vector;
 
 public class MainSeat extends Seat {
-    public MainSeat(Vector vector) {
-        super(vector);
-    }
 
     public MainSeat(Vector vector, float width, float height) {
         super(vector, width, height);
