@@ -6,7 +6,7 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import marumasa.marumasa_car.vehicle.machine.ExampleCar;
+import marumasa.marumasa_car.vehicle.machine.Machine;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Interaction;
@@ -29,10 +29,7 @@ public class VehicleEventManager {
 
 
     public void load(ArmorStand stand, Set<String> tags) {
-
-        if (tags.contains(ExampleCar.tag))
-            new ExampleCar(stand, pl);
-
+        Machine.tryLoad(tags, stand, pl);
     }
 
 
@@ -107,7 +104,7 @@ public class VehicleEventManager {
     }
 
     public Vehicle unload(ArmorStand stand) {
-        Vehicle vehicle = VehicleController.VehicleLink.get(stand);
+        Vehicle vehicle = VehicleController.VehicleLink.remove(stand);
         if (vehicle == null) return null;
         vehicle.unload();
         return vehicle;
@@ -115,9 +112,9 @@ public class VehicleEventManager {
 
     public void remove(Entity entity) {
         if (entity instanceof Interaction interaction) {
-            ArmorStand body = VehicleController.InteractionLink.get(interaction);
+            ArmorStand body = VehicleController.InteractionLink.remove(interaction);
+            if (body == null) return;
             final Vehicle vehicle = unload(body);
-            if (vehicle == null) return;
             vehicle.remove();
         }
     }

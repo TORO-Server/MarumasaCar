@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExampleCar extends Vehicle {
-    public static final String tag = "marumasa.example";
 
     public ExampleCar(ArmorStand stand, JavaPlugin pl) {
         super(stand, pl);
