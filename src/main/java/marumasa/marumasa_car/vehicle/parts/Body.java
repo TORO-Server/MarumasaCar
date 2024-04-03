@@ -53,7 +53,7 @@ public class Body extends TrackingDisplay {
     }
 
     public Transformation generateTransformation() {
-        return new Transformation(translation, this.rotation, scale,new Quaternionf());
+        return new Transformation(translation, scale,new Quaternionf());
     }
 
     @Override
