@@ -1,6 +1,7 @@
 package marumasa.marumasa_car.vehicle;
 
 import marumasa.marumasa_car.vehicle.parts.Part;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -21,11 +22,11 @@ import static marumasa.marumasa_car.vehicle.VehicleUtils.isOccluding;
 import static marumasa.marumasa_car.vehicle.VehicleUtils.isSolid;
 
 public class Vehicle extends BukkitRunnable {
-    public float frontSpeed() {
+    public float move_Speed() {
         return 0.4f;
     }
 
-    public float slideSpeed() {
+    public float rotation_speed() {
         return 0.1f;
     }
 
@@ -127,23 +128,26 @@ public class Vehicle extends BukkitRunnable {
         final Player driver = getDriver();
 
         if (driver != null) {
-            final float yaw = driver.getLocation().getYaw();
-            body.setRotation(yaw, 0);
+            final double now_speed = vector.clone().multiply(new Vector(1, 0, 1)).length();
 
-            if (VehicleController.W.contains(driver)) {
-                addVector(0, 0, generateSpeed(frontSpeed()), yaw);
-            } else if (VehicleController.S.contains(driver)) {
-                addVector(0, 0, -generateSpeed(backSpeed()), yaw);
-            }
+            final float rotation_speed = (float) (now_speed * 20f);
 
             if (VehicleController.A.contains(driver)) {
-                addVector(generateSpeed(slideSpeed()), 0, 0, yaw);
+                body.setRotation(location.getYaw() - rotation_speed, location.getPitch());
             } else if (VehicleController.D.contains(driver)) {
-                addVector(-generateSpeed(slideSpeed()), 0, 0, yaw);
+                body.setRotation(location.getYaw() + rotation_speed, location.getPitch());
+            }
+
+            location = body.getLocation();
+
+            if (VehicleController.W.contains(driver)) {
+                addVector(0, 0, generateSpeed(move_Speed()), location.getYaw());
+            } else if (VehicleController.S.contains(driver)) {
+                addVector(0, 0, -generateSpeed(backSpeed()), location.getYaw());
             }
 
             if (VehicleController.Jump.contains(driver)) {
-                addVector(0, generateJump(), 0, yaw);
+                addVector(0, generateJump(), 0, location.getYaw());
             }
         }
 
