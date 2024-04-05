@@ -16,6 +16,7 @@ public class TrackingDisplay extends Tracking {
     public Display create(World world, Location location, Vehicle vehicle) {
         final Display display = (Display) super.create(world, location, vehicle);
         display.setTeleportDuration(2);
+        display.setViewRange(64);
         return display;
     }
 }
