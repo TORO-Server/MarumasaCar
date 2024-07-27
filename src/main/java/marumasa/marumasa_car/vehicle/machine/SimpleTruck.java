@@ -31,7 +31,7 @@ public class SimpleTruck extends Vehicle {
                     Material.DISC_FRAGMENT_5,
                     new Vector3f(0f, 0f, 0f),
                     new Vector3f(7f),
-                    2
+                    11
             ));
         }};
     }
