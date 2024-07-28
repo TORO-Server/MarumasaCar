@@ -1,5 +1,6 @@
 package marumasa.marumasa_car;
 
+import marumasa.marumasa_car.vehicle.machine.Keitrack;
 import marumasa.marumasa_car.vehicle.machine.MinumaCar;
 import marumasa.marumasa_car.vehicle.Machine;
 import marumasa.marumasa_car.vehicle.machine.SimpleTruck;
@@ -20,6 +21,7 @@ public final class Minecraft extends JavaPlugin {
         Machine.register("marumasa.minuma", MinumaCar::new);
         Machine.register("fhrk.simpletruck", SimpleTruck::new);
         Machine.register("fhrk.simplebus", SimpleBus::new);
+        Machine.register("salmon.simplebus", Keitrack::new);
     }
 
     @Override
