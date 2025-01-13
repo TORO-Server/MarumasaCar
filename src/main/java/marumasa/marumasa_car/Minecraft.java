@@ -2,6 +2,7 @@ package marumasa.marumasa_car;
 
 import marumasa.marumasa_car.vehicle.machine.MinumaCar;
 import marumasa.marumasa_car.vehicle.Machine;
+import marumasa.marumasa_car.vehicle.machine.SalmonCar;
 import marumasa.marumasa_car.vehicle.machine.SimpleTruck;
 import marumasa.marumasa_car.vehicle.machine.SimpleBus;
 import org.bukkit.Server;
@@ -20,6 +21,7 @@ public final class Minecraft extends JavaPlugin {
         Machine.register("marumasa.minuma", MinumaCar::new);
         Machine.register("fhrk.simpletruck", SimpleTruck::new);
         Machine.register("fhrk.simplebus", SimpleBus::new);
+        Machine.register("salmon.car", SalmonCar::new);
     }
 
     @Override
