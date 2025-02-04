@@ -6,6 +6,10 @@ import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Minecraft extends JavaPlugin {
+    // デバッグ用(PartからもLoggerを使いたかったので)
+    private static Minecraft marumasaCarInstance;
+    public static Minecraft getInstance() {return marumasaCarInstance;}
+    public Minecraft() {marumasaCarInstance = this;}
 
     @Override
     public void onEnable() {
@@ -18,6 +22,7 @@ public final class Minecraft extends JavaPlugin {
         Machine.register("fhrk.simpletruck", SimpleTruck::new);
         Machine.register("fhrk.simplebus", SimpleBus::new);
         Machine.register("salmon.car", SalmonCar::new);
+        Machine.register("salmon.atcar", ATSalmonCar::new);
         Machine.register("toilet.sedans13", SedanS13::new);
     }
 

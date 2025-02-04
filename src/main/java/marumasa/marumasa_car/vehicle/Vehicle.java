@@ -1,7 +1,6 @@
 package marumasa.marumasa_car.vehicle;
 
 import marumasa.marumasa_car.vehicle.parts.Part;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -13,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +50,7 @@ public class Vehicle extends BukkitRunnable {
         return 6f;
     }
 
-    private double generateSpeed(float speed) {
+    protected double generateSpeed(float speed) {
         Location loc = location.clone().add(0, -0.1, 0);
         if (isSolid(loc)) {
             return inWater() ? speed / waterSubSpeed() : speed;
@@ -59,7 +59,7 @@ public class Vehicle extends BukkitRunnable {
         }
     }
 
-    private double generateJump() {
+    protected double generateJump() {
         Location loc = location.clone().add(0, -0.1, 0);
         if (isSolid(loc)) {
             return jumpPower();
@@ -76,14 +76,14 @@ public class Vehicle extends BukkitRunnable {
     // すべてのエンティティリスト
     public final List<Entity> EntityListAll = new ArrayList<>();
 
-    private final Map<Entity, Part> partsMap = new HashMap<>();
+    protected final Map<Entity, Part> partsMap = new HashMap<>();
 
     public List<Part> generateParts() {
         return new ArrayList<>();
     }
 
-    private Location location;
-    private Vector vector;
+    protected Location location;
+    protected Vector vector;
 
     public Vehicle(ArmorStand stand, JavaPlugin pl) {
 
@@ -96,6 +96,7 @@ public class Vehicle extends BukkitRunnable {
 
         location = body.getLocation();
 
+        onBeforeGenerateParts();
         List<Part> parts = generateParts();
 
         final World world = body.getWorld();
@@ -106,6 +107,7 @@ public class Vehicle extends BukkitRunnable {
 
     // メインシートにプレイヤーが乗っていた場合、プレイヤーを return する
     // そうでなかったら null にする
+    @Nullable
     public Player getDriver() {
         if (mainSeat == null) return null;
         final List<Entity> passengers = mainSeat.getPassengers();
@@ -158,7 +160,7 @@ public class Vehicle extends BukkitRunnable {
         body.setVelocity(vector);
     }
 
-    private boolean inWater() {
+    protected boolean inWater() {
         return location.getBlock().getType().equals(Material.WATER);
     }
 
@@ -171,7 +173,7 @@ public class Vehicle extends BukkitRunnable {
             return isOccluding(location.clone().add(x, 0, z)) && !isSolid(location.clone().add(x, 0.9, z));
     }
 
-    private void autoStep() {
+    protected void autoStep() {
         Location locationClone = location.clone();
 
         boolean isChange = false;
@@ -207,4 +209,6 @@ public class Vehicle extends BukkitRunnable {
     public void remove() {
         body.remove();
     }
+
+    public void onBeforeGenerateParts() {}
 }
