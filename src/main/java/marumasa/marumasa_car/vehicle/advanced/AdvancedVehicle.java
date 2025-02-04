@@ -10,6 +10,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 public class AdvancedVehicle extends Vehicle {
+    public double addSpeed = 0;
+    public double savedSpeed = 0;
+
     public int tick20 = 0;
     public AdvancedVehicle advancedVehicleInstance;
     public boolean brinker = false;
@@ -56,7 +59,7 @@ public class AdvancedVehicle extends Vehicle {
         if (driver != null) {
             final double now_speed = vector.clone().multiply(new Vector(1, 0, 1)).length();
 
-            final float rotation_speed = (float) (now_speed * 20f);
+            final float rotation_speed = (float) (now_speed * 5f);
 
             if (VehicleController.A.contains(driver)) {
                 body.setRotation(location.getYaw() - rotation_speed, location.getPitch());
@@ -67,15 +70,20 @@ public class AdvancedVehicle extends Vehicle {
             location = body.getLocation();
 
             if (VehicleController.W.contains(driver)) {
-                addVector(0, 0, generateSpeed(move_Speed()), location.getYaw());
+                addSpeed += (generateSpeed(move_Speed()) - addSpeed) / 128;
             } else if (VehicleController.S.contains(driver)) {
-                addVector(0, 0, -generateSpeed(backSpeed()), location.getYaw());
+                addSpeed += (-generateSpeed(backSpeed()) - addSpeed) / 12;
             }
 
             if (VehicleController.Jump.contains(driver)) {
                 addVector(0, generateJump(), 0, location.getYaw());
             }
         }
+
+        savedSpeed += addSpeed;
+        addVector(0, 0, savedSpeed, location.getYaw());
+        addSpeed += -addSpeed / 12;
+        savedSpeed += -savedSpeed / 24;
 
         final float yaw = location.getYaw();
 
