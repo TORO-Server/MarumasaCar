@@ -35,4 +35,6 @@ public class Part {
 
     public void tick(Location location, float yaw, Entity entity) {
     }
+
+    public void onUnload() {}
 }
