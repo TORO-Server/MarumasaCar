@@ -4,7 +4,7 @@ import marumasa.marumasa_car.vehicle.parts.Body;
 import marumasa.marumasa_car.vehicle.parts.Part;
 import marumasa.marumasa_car.vehicle.parts.Seat;
 import marumasa.marumasa_car.vehicle.parts.advanced.ATMainSeat;
-import marumasa.marumasa_car.vehicle.parts.advanced.AdvancedVehicle;
+import marumasa.marumasa_car.vehicle.advanced.AdvancedVehicle;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.plugin.java.JavaPlugin;

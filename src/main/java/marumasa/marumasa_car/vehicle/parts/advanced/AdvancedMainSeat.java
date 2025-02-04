@@ -1,6 +1,7 @@
 package marumasa.marumasa_car.vehicle.parts.advanced;
 
 import marumasa.marumasa_car.vehicle.Vehicle;
+import marumasa.marumasa_car.vehicle.advanced.AdvancedVehicle;
 import marumasa.marumasa_car.vehicle.parts.MainSeat;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -25,6 +26,7 @@ abstract class AdvancedMainSeat extends MainSeat {
     protected AdvancedVehicle vehicle;
     protected boolean isPassenger = false;
     protected final ItemStack[] itemStacks = new ItemStack[HOTBAR_SIZE];
+    protected final ItemStack[] savedInventory = new ItemStack[27];
     protected Player lastPlayer = null;
     @Nonnegative
     protected int lastHand = -1;
@@ -35,6 +37,7 @@ abstract class AdvancedMainSeat extends MainSeat {
     }
 
     abstract protected ItemStack[] getAdvancedHotbar();
+    abstract protected ItemStack[] getAdvancedInventory();
     protected ItemStack createItemStack(@Nonnull Material material, @Nullable @Nonnegative Integer amount,
                                         @Nullable String displayName, @Nullable String... lore) {
         final ItemStack itemStack;
@@ -60,10 +63,16 @@ abstract class AdvancedMainSeat extends MainSeat {
 
         if (passenger == null && isPassenger) {
             for (int i = 0; i < HOTBAR_SIZE; i++) lastPlayer.getInventory().setItem(i, itemStacks[i]);
+            for (int i = 0; i < 27; i++) lastPlayer.getInventory().setItem(HOTBAR_SIZE+i, savedInventory[i]);
             isPassenger = false;
         } else if (passenger != null && !isPassenger) {
             lastPlayer = passenger;
             for (int i = 0; i < HOTBAR_SIZE; i++) itemStacks[i] = passenger.getInventory().getItem(i);
+            for (int i = 0; i < 27; i++) {
+                savedInventory[i] = passenger.getInventory().getItem(HOTBAR_SIZE+i);
+                lastPlayer.getInventory().setItem(HOTBAR_SIZE+i, getAdvancedInventory()[i] == null ?
+                        new ItemStack(Material.AIR) : getAdvancedInventory()[i]);
+            }
             isPassenger = true;
         }
 
@@ -81,11 +90,29 @@ abstract class AdvancedMainSeat extends MainSeat {
                     break;
                 }
             }
+
+            for (int i = 0; i < 27; i++) {
+                var item = lastPlayer.getInventory().getItem(HOTBAR_SIZE+i);
+                var advanceItem = getAdvancedInventory()[i];
+                if ((item == null ? Material.AIR : item.getType()) != (advanceItem == null ? Material.AIR : advanceItem.getType())) {
+                    functionInventoryHandler(i);
+                }
+                lastPlayer.getInventory().setItem(HOTBAR_SIZE+i, getAdvancedInventory()[i] == null ?
+                        new ItemStack(Material.AIR) : getAdvancedInventory()[i]);
+            }
         }
+    }
+
+    @Override
+    public void onUnload() {
+        for (int i = 0; i < HOTBAR_SIZE; i++) lastPlayer.getInventory().setItem(i, itemStacks[i]);
+        for (int i = 0; i < 27; i++) lastPlayer.getInventory().setItem(HOTBAR_SIZE+i, savedInventory[i]);
     }
 
     public void onSwitchGear(@Nonnegative int slot) {
         var world = vehicle.mainSeat.getLocation().getWorld();
         if (world != null) world.playSound(vehicle.mainSeat.getLocation(), Sound.BLOCK_STONE_BREAK, 1, 0.5f);
     }
+
+    public void functionInventoryHandler(@Nonnegative int slot) {}
 }

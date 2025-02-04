@@ -1,6 +1,7 @@
 package marumasa.marumasa_car.vehicle.parts.advanced;
 
 import marumasa.marumasa_car.vehicle.Vehicle;
+import marumasa.marumasa_car.vehicle.advanced.AdvancedVehicle;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -28,7 +29,16 @@ public class ATMainSeat extends AdvancedMainSeat {
                     "1速に固定します。2速でもパワーが足りない時。"),
             null,
             null,
-            null
+            null,
+    };
+
+    protected final ItemStack[] functionInventory = {
+            createItemStack(Material.YELLOW_CONCRETE, 1, "ハザード/ウィンカー"),
+            createItemStack(Material.ORANGE_CONCRETE, 1, "クラクション"),
+            null,null,null,null,null,null,
+            createItemStack(Material.RED_CONCRETE, 1, "車を削除"),
+            null,null,null,null,null,null,null,null,null,
+            null,null,null,null,null,null,null,null,null,
     };
 
     public ATMainSeat(Vector vector, float width, float height, AdvancedVehicle vehicle) {
@@ -36,9 +46,9 @@ public class ATMainSeat extends AdvancedMainSeat {
     }
 
     @Override
-    protected ItemStack[] getAdvancedHotbar() {
-        return shiftGearHotbar;
-    }
+    protected ItemStack[] getAdvancedHotbar() {return shiftGearHotbar;}
+    @Override
+    protected ItemStack[] getAdvancedInventory() {return functionInventory;}
 
     @Override
     public Display create(World world, Location location, @Nonnull Vehicle vehicle) {
@@ -61,8 +71,8 @@ public class ATMainSeat extends AdvancedMainSeat {
                 vehicle.jumpPowerF = 0.5F;
                 break;
             case 1:
-                vehicle.backSpeedF = 0.2F;
-                vehicle.moveSpeedF = 0F;
+                vehicle.backSpeedF = -0F;
+                vehicle.moveSpeedF = -0.2F;
                 vehicle.jumpPowerF = 0.5F;
                 break;
             case 3:
@@ -73,12 +83,27 @@ public class ATMainSeat extends AdvancedMainSeat {
             case 4:
                 vehicle.backSpeedF = 0F;
                 vehicle.moveSpeedF = 0.2F;
-                vehicle.jumpPowerF = 1F;
+                vehicle.jumpPowerF = 0.75F;
                 break;
             case 5:
                 vehicle.backSpeedF = 0F;
                 vehicle.moveSpeedF = 0.1F;
-                vehicle.jumpPowerF = 1.5F;
+                vehicle.jumpPowerF = 1F;
+                break;
+        }
+    }
+
+    @Override
+    public void functionInventoryHandler(@Nonnegative int slot) {
+        switch (slot) {
+            case 0:
+                vehicle.brinker = !vehicle.brinker;
+                break;
+            case 1:
+                vehicle.playHorn();
+                break;
+            case 8:
+                vehicle.unload();
                 break;
         }
     }

@@ -203,6 +203,7 @@ public class Vehicle extends BukkitRunnable {
 
     public void unload() {
         this.cancel();
+        for (Entity entity : partsMap.keySet()) partsMap.get(entity).onUnload();
         for (Entity entity : EntityListAll) entity.remove();
     }
 
