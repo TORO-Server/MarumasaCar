@@ -29,6 +29,7 @@ public final class Minecraft extends JavaPlugin {
         Machine.register("salmon.carat", ATSalmonCar::new);
         Machine.register("marumasa.minumaat", ATSalmonCar::new);
         Machine.register("toilet.sedans13at", ATSedanS13::new);
+        Machine.register("tetsuota.luup", TetsuotaLuup::new);
     }
 
     @Override
