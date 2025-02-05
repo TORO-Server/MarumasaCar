@@ -105,8 +105,10 @@ abstract class AdvancedMainSeat extends MainSeat {
 
     @Override
     public void onUnload() {
-        for (int i = 0; i < HOTBAR_SIZE; i++) lastPlayer.getInventory().setItem(i, itemStacks[i]);
-        for (int i = 0; i < 27; i++) lastPlayer.getInventory().setItem(HOTBAR_SIZE+i, savedInventory[i]);
+        if (lastPlayer != null) {
+            for (int i = 0; i < HOTBAR_SIZE; i++) lastPlayer.getInventory().setItem(i, itemStacks[i]);
+            for (int i = 0; i < 27; i++) lastPlayer.getInventory().setItem(HOTBAR_SIZE + i, savedInventory[i]);
+        }
     }
 
     public void onSwitchGear(@Nonnegative int slot) {
