@@ -67,15 +67,15 @@ public class SmoothExampleCar extends Vehicle {
             if (last_speed > now_speed && now_speed < 0.01) move_tick = 0;
 
             if (VehicleController.W.contains(driver)) {
-                move_tick -= move_tick < move_tick_max ? 2 : 0;
+                move_tick += move_tick < move_tick_max ? 2 : 0;
             } else if (VehicleController.S.contains(driver)) {
-                move_tick += move_tick > -move_tick_max ? 2 : 0;
+                move_tick -= move_tick > -move_tick_max ? 2 : 0;
             } else {
                 move_tick -= Math.signum(move_tick);
             }
-            // アークタンジェントを使用して滑らかに加速や減速させる
+            // アークタンジェントを利用して滑らかに加速や減速させる
             float smooth_speed = (float) Math.min(Math.atan((double) move_tick / move_tick_max) * move_Speed(), move_Speed());
-            addVector(0, 0, -generateSpeed(smooth_speed), location.getYaw());
+            addVector(0, 0, generateSpeed(smooth_speed), location.getYaw());
 
             if (VehicleController.Jump.contains(driver)) {
                 addVector(0, generateJump(), 0, location.getYaw());
