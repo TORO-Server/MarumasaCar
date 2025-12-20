@@ -27,10 +27,6 @@ public final class Minecraft extends JavaPlugin {
         Machine.register("toilet.sedans13", SedanS13::new);
         Machine.register("toilet.t34tankq", T34TankQ::new);
         Machine.register("salmon.keitruck", KeiTruck::new);
-
-        Machine.register("salmon.carat", ATSalmonCar::new);
-        Machine.register("marumasa.minumaat", ATSalmonCar::new);
-        Machine.register("toilet.sedans13at", ATSedanS13::new);
         Machine.register("tetsuota.luup", TetsuotaLuup::new);
     }
 
