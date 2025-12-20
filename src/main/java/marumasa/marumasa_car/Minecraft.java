@@ -1,5 +1,6 @@
 package marumasa.marumasa_car;
 
+import marumasa.marumasa_car.vehicle.machine.SmoothExampleCar;
 import marumasa.marumasa_car.vehicle.machine.*;
 import marumasa.marumasa_car.vehicle.Machine;
 import org.bukkit.Server;
@@ -19,6 +20,7 @@ public final class Minecraft extends JavaPlugin {
         server.getPluginManager().registerEvents(new Events(config, this), this);
 
         Machine.register("marumasa.minuma", MinumaCar::new);
+        Machine.register("marumasa.smooth_example", SmoothExampleCar::new);
         Machine.register("fhrk.simpletruck", SimpleTruck::new);
         Machine.register("fhrk.simplebus", SimpleBus::new);
         Machine.register("salmon.car", SalmonCar::new);
