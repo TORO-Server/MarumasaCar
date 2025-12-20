@@ -33,7 +33,7 @@ public class KeiTruck extends Vehicle {
             add(new Body(
                     Material.DISC_FRAGMENT_5,
                     new Vector3f(0f, 0f, 0f),
-                    new Vector3f(10f),
+                    new Vector3f(5f),
                     2
             ));
         }};
