@@ -28,6 +28,10 @@ public final class Minecraft extends JavaPlugin {
         Machine.register("toilet.t34tankq", T34TankQ::new);
         Machine.register("salmon.keitruck", KeiTruck::new);
         Machine.register("tetsuota.luup", TetsuotaLuup::new);
+        Machine.register("toilet.t72b3", T72B3::new);
+        Machine.register("toilet.rx7fd3se", Rx7fd3se::new);
+        Machine.register("toilet.180sx", Car180sx::new);
+        Machine.register("kokeishi.bus", KokeishiBus::new);
     }
 
     @Override
